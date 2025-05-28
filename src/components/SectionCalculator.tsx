@@ -4,11 +4,11 @@ import { SectionType } from "./SectionCreator";
 import MyAppBar from "./MyAppBar";
 import { useState } from "react";
 import CalculatorSection from "./CalculatorSection";
+import { useNavigate } from "react-router-dom";
 
 type GradeType = {
     sectionId:string,
-    grade:string,
-    isKnown:true
+    grade:string
 }
 
 export default function SectionCalculator() {
@@ -18,6 +18,9 @@ export default function SectionCalculator() {
 
     const[badSubmit,setBadSubmit] = useState<boolean>(false);
     const[grades,setGrades] = useState<GradeType[]>(sections.map((section) => { return {sectionId:section.id, grade:"",isKnown:true} }))
+    const[selectedId,setSelectedId] = useState<string|null>(null);
+
+    const navigate = useNavigate();
 
     const errorTypography = <Typography fontFamily={'initial'}>Make sure all grades are valid numbers between 0.0 and 100.0</Typography>
 
@@ -26,7 +29,7 @@ export default function SectionCalculator() {
         setGrades(updated);
     }
 
-    const sectionElements = sections.map((section) => <CalculatorSection section={section} changeGrade={changeGrade}/>)
+    const sectionElements = sections.map((section) => <CalculatorSection section={section} changeGrade={changeGrade} isSelected={selectedId === section.id} setSelected={setSelectedId} key={section.id}/>)
 
     function isValidFloat(str: string): boolean {
         return /^-?\d+(\.\d+)?$/.test(str.trim());
@@ -34,7 +37,7 @@ export default function SectionCalculator() {
 
     const handleSubmit = () =>{
         const hasInvalid = grades.some(grade => 
-        grade.isKnown && !isValidFloat(grade.grade.toString())
+        grade.sectionId !== selectedId && !isValidFloat(grade.grade.trim())
         );
 
         if(hasInvalid){
@@ -42,6 +45,8 @@ export default function SectionCalculator() {
             setTimeout(()=>setBadSubmit(false), 2000);
             return;
         }
+
+        navigate("/results",{state:{sections:sections, grades:grades, selectedId:selectedId}})
     }
 
     return(
@@ -64,7 +69,7 @@ export default function SectionCalculator() {
                 <Typography variant='h5' padding={3} fontFamily={'initial'}>
                     Calculate your minimum needed grade for a section!
                 </Typography>
-                <Typography>Click on the cancel icon to indicate which section needs the calculation</Typography>
+                <Typography>Click on the button next to the section you want the calculation to be done for</Typography>
             </Box>
             <Paper elevation={10} sx={{width:'75%'}}>
                 <Box sx={{
@@ -81,7 +86,7 @@ export default function SectionCalculator() {
                     </Box>
                     
                     {sectionElements}
-                    <Button autoCapitalize='off' onClick={() => console.log("hi")} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Calculate</Typography></Button>
+                    <Button autoCapitalize='off' onClick={() => handleSubmit} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Calculate</Typography></Button>
                     {badSubmit ? errorTypography : null}
                 </Box>
                 

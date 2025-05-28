@@ -1,11 +1,13 @@
-import { Box, Checkbox, IconButton, TextField, Typography } from "@mui/material"
+import { Box, Checkbox, TextField, Typography } from "@mui/material"
 import { SectionType } from "./SectionCreator";
 import { FC } from "react";
-import { Block, RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
+import { RadioButtonChecked, RadioButtonUnchecked } from "@mui/icons-material";
 
 type CalculatorSectionProps = {
     section:SectionType
     changeGrade:(arg0:string,arg1:string) => void
+    isSelected:boolean,
+    setSelected:(arg0:string) => void
 }
 
 const CalculatorSection:FC<CalculatorSectionProps> = (props) =>{
@@ -17,8 +19,21 @@ const CalculatorSection:FC<CalculatorSectionProps> = (props) =>{
             </Box>
 
             <Box sx={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center', gap:3}}>
-                <TextField placeholder={"Enter grade for "+props.section.name} size="small" autoComplete="off"></TextField>
-                <Checkbox icon={<RadioButtonUnchecked/>} checkedIcon={<RadioButtonChecked/>}></Checkbox>
+                { !props.isSelected ? 
+                <TextField placeholder={"Enter grade for "+props.section.name} size="small" autoComplete="off"></TextField> 
+                :
+                <Typography color="darkred">This section will be the calculated section</Typography>
+                }
+                <Checkbox 
+                icon={<RadioButtonUnchecked/>} checkedIcon={<RadioButtonChecked/>} 
+                onChange={() => props.setSelected(props.section.id)}
+                checked={props.isSelected}
+                sx={{
+                '&.Mui-checked': {
+                 color: "darkred"
+                }
+                }}
+                ></Checkbox>
             </Box>
     </Box>
     );
