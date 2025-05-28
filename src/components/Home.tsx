@@ -19,7 +19,7 @@ function Home() {
             gap:5
         }}>
             <Paper elevation={10}
-            sx={{minHeight:'40vh', width:'40%', backgroundColor:'#ccc8c8'}}>
+            sx={{minHeight:'50vh', width:'40%', backgroundColor:''}}>
                 <Box 
                 sx={{
                     display:'flex',
@@ -39,7 +39,7 @@ function Home() {
                 </Box>
             </Paper>
             <Paper elevation={10}
-            sx={{minHeight:'40vh', width:'40%', backgroundColor:''}}>
+            sx={{minHeight:'50vh', width:'40%', backgroundColor:''}}>
                 <Box 
                 sx={{
                     display:'flex',

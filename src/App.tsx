@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import SectionCreator from './components/SectionCreator';
 import SectionCalculator from './components/SectionCalculator';
 import FinalResults from './components/FinalResults';
+import About from './components/About';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/sections" element={<SectionCreator></SectionCreator>}></Route>
         <Route path="/calculator" element={<SectionCalculator/>}></Route>
         <Route path="/results" element={<FinalResults/>}></Route>
+        <Route path="/about" element={<About/>}></Route>
     </Routes>
   );
 }

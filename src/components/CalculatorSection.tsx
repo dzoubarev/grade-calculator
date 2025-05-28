@@ -20,7 +20,7 @@ const CalculatorSection:FC<CalculatorSectionProps> = (props) =>{
 
             <Box sx={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center', gap:3}}>
                 { !props.isSelected ? 
-                <TextField placeholder={"Enter grade for "+props.section.name} size="small" autoComplete="off"></TextField> 
+                <TextField placeholder={"Enter grade for "+props.section.name} size="small" autoComplete="off" onChange={(e)=>props.changeGrade(props.section.id,e.target.value)}></TextField> 
                 :
                 <Typography color="darkred">This section will be the calculated section</Typography>
                 }

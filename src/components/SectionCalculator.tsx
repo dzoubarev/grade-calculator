@@ -6,7 +6,7 @@ import { useState } from "react";
 import CalculatorSection from "./CalculatorSection";
 import { useNavigate } from "react-router-dom";
 
-type GradeType = {
+export type GradeType = {
     sectionId:string,
     grade:string
 }
@@ -17,7 +17,7 @@ export default function SectionCalculator() {
     const sections: SectionType[] = location.state?.sections || [];
 
     const[badSubmit,setBadSubmit] = useState<boolean>(false);
-    const[grades,setGrades] = useState<GradeType[]>(sections.map((section) => { return {sectionId:section.id, grade:"",isKnown:true} }))
+    const[grades,setGrades] = useState<GradeType[]>(sections.map((section) => { return {sectionId:section.id, grade:""} }))
     const[selectedId,setSelectedId] = useState<string|null>(null);
 
     const navigate = useNavigate();
@@ -36,8 +36,21 @@ export default function SectionCalculator() {
     }
 
     const handleSubmit = () =>{
-        const hasInvalid = grades.some(grade => 
-        grade.sectionId !== selectedId && !isValidFloat(grade.grade.trim())
+    
+        if (!selectedId) {
+            alert("Please select a section first.");
+            return;
+        }
+
+        const hasInvalid = grades.some(grade => {
+            if(grade.sectionId === selectedId){return false;}
+
+            if(!isValidFloat(grade.grade.trim())){return true;}
+
+            const float = parseFloat(grade.grade.trim());
+            return (float < 0  || float > 100);
+
+        }
         );
 
         if(hasInvalid){
@@ -86,7 +99,7 @@ export default function SectionCalculator() {
                     </Box>
                     
                     {sectionElements}
-                    <Button autoCapitalize='off' onClick={() => handleSubmit} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Calculate</Typography></Button>
+                    <Button autoCapitalize='off' onClick={handleSubmit} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Calculate</Typography></Button>
                     {badSubmit ? errorTypography : null}
                 </Box>
                 
