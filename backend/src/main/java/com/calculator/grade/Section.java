@@ -26,4 +26,6 @@ public class Section {
     public String getName(){ return name; }
 
     public double getWeight(){ return weight; }
+
+    public UUID getId(){ return id; }
 }

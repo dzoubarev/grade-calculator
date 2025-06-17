@@ -32,4 +32,8 @@ public class GradingSchemeDTO {
     public String getName(){
         return name;
     }
+
+    public List<SectionDTO> getSections() {
+        return sections;
+    }
 }

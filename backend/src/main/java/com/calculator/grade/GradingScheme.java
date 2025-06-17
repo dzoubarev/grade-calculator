@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -24,7 +25,7 @@ public class GradingScheme {
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @OneToMany(mappedBy = "gradingScheme", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "gradingScheme", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Section> sections = new ArrayList<>();
 
     public Course getCourse(){return course;}

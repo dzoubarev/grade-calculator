@@ -2,9 +2,59 @@ import {Box, Typography,Paper,Button,TextField} from '@mui/material'
 import React from 'react';
 import MyAppBar from './MyAppBar';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { SectionType } from './SectionCreator';
+
+type Section = {
+    name:string,
+    weight:number
+}
+export type GradingSchemeType = {
+      name:string,
+      sections:Section[]  
+}
+
 
 function Home() {
+
     const navigate = useNavigate();
+    const[courseCode,setCourseCode] = useState("")
+    const[data,setData] = useState<GradingSchemeType[]>([]);
+    const[loading,setLoading] = useState<boolean>(false);
+    const[error,setError] = useState<string|null>(null)
+
+    const handleChange = (newCode:string) => {
+        setCourseCode(newCode.trim())
+    }
+
+    const handleSubmit = () => {
+        
+        setCourseCode(courseCode.trim());
+        if(courseCode===''){return;}
+
+        setLoading(true);
+
+        fetch(`http://localhost:8080/api/scheme/${courseCode}`)
+        .then((res) => {
+            if(!res.ok){throw new Error("Failed to fetch data")};
+
+            return res.json();
+        })
+        .then((data:GradingSchemeType[]) => {
+            setData(data);
+            setLoading(false);
+        })
+        .catch((error) =>{
+            setError(error.message)
+            setLoading(false);
+        }
+        )
+
+        console.log(data)
+    }
+
+    
+
     return(
         <Box>
         <MyAppBar></MyAppBar>
@@ -54,10 +104,11 @@ function Home() {
                         Enter a course code to load the grading scheme.
                     </Typography>
                     <Typography>Ex: PHYS142</Typography>
-                    <TextField size='small'></TextField>
-                    <Button sx={{backgroundColor:'#9c0507'}}>
+                    <TextField size='small' onChange={(e) => handleChange(e.target.value.toUpperCase())} value={courseCode}></TextField>
+                    <Button sx={{backgroundColor:'#9c0507'}} onClick={() => handleSubmit()}>
                         <Typography fontFamily={'initial'} color='whitesmoke'>Use Inputted Course Code</Typography>
                     </Button>
+                    {loading && <Typography>Loading...</Typography>}
                 </Box>
             </Paper>
         </Box>

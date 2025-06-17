@@ -48,9 +48,7 @@ export default function FinalResults(){
 }
 
    function calculateResults(): number[] {
-    console.log(sections);
-    console.log(grades);
-    console.log(selectedId);
+    
     if (!grades || !sections || !selectedId) return [];
 
     return gradeNumbers.map(desired => findMinGrade(desired));
