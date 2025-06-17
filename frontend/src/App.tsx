@@ -5,6 +5,7 @@ import SectionCreator from './components/SectionCreator';
 import SectionCalculator from './components/SectionCalculator';
 import FinalResults from './components/FinalResults';
 import About from './components/About';
+import Post from './components/Post';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/calculator" element={<SectionCalculator/>}></Route>
         <Route path="/results" element={<FinalResults/>}></Route>
         <Route path="/about" element={<About/>}></Route>
+        <Route path="/post" element={<Post/>}></Route>
     </Routes>
   );
 }
