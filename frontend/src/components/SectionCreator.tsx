@@ -3,7 +3,8 @@ import MyAppBar from "./MyAppBar";
 import { useState } from "react";
 import { Section } from "./Section";
 import { v4 as uuidv4} from 'uuid';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { GradingSchemeType } from "./Home";
 
 export type SectionType = {
     name:string,
@@ -13,8 +14,12 @@ export type SectionType = {
 
 
 function SectionCreator(){
+    const location = useLocation();
+    const schemes:GradingSchemeType[] = location.state?.schemes || [];
     const navigate = useNavigate();
-    const [sections,setSections] = useState<SectionType[]>([{name:"Homework",weight:"0.1",id:uuidv4()},{name:"Midterm",weight:"0.3",id:uuidv4()},{name:"Final",weight:"0.6",id:uuidv4()}]);
+    const exampleScheme:SectionType[] = [{name:"Homework",weight:"0.1",id:uuidv4()},{name:"Midterm",weight:"0.3",id:uuidv4()},{name:"Final",weight:"0.6",id:uuidv4()}]
+
+    const [sections,setSections] = useState<SectionType[]>( schemes.length === 0 ?  exampleScheme : schemes[0].sections);
     const [badSubmit,setBadSubmit] = useState<boolean>(false);
     
     const errorTypography = <Typography fontFamily={'initial'}>Make sure all sections have a name and weights are valid decimals between 0.0 and 1.0</Typography>

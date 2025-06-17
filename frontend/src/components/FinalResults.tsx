@@ -33,7 +33,8 @@ export default function FinalResults(){
 
         for (let i = 0; i < sections.length; i++) {
             const section = sections[i];
-            const weight = parseFloat(section.weight.trim());
+            let weight = parseFloat(section.weight.trim());
+            if(weight > 1){weight /=100;}
 
             if (section.id === selectedId) {
                 unknownWeight = weight;

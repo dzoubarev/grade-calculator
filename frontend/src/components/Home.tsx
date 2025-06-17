@@ -5,13 +5,10 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react'
 import { SectionType } from './SectionCreator';
 
-type Section = {
-    name:string,
-    weight:number
-}
+
 export type GradingSchemeType = {
       name:string,
-      sections:Section[]  
+      sections:SectionType[]  
 }
 
 
@@ -19,7 +16,7 @@ function Home() {
 
     const navigate = useNavigate();
     const[courseCode,setCourseCode] = useState("")
-    const[data,setData] = useState<GradingSchemeType[]>([]);
+    const[myData,setData] = useState<GradingSchemeType[]>([]);
     const[loading,setLoading] = useState<boolean>(false);
     const[error,setError] = useState<string|null>(null)
 
@@ -43,14 +40,14 @@ function Home() {
         .then((data:GradingSchemeType[]) => {
             setData(data);
             setLoading(false);
+            console.log(data)
+            navigate("/sections",{state: {schemes: data}})
         })
         .catch((error) =>{
             setError(error.message)
             setLoading(false);
         }
-        )
-
-        console.log(data)
+        ) 
     }
 
     
@@ -104,7 +101,7 @@ function Home() {
                         Enter a course code to load the grading scheme.
                     </Typography>
                     <Typography>Ex: PHYS142</Typography>
-                    <TextField size='small' onChange={(e) => handleChange(e.target.value.toUpperCase())} value={courseCode}></TextField>
+                    <TextField size='small' onChange={(e) => handleChange(e.target.value.toUpperCase())} value={courseCode} autoComplete='off'></TextField>
                     <Button sx={{backgroundColor:'#9c0507'}} onClick={() => handleSubmit()}>
                         <Typography fontFamily={'initial'} color='whitesmoke'>Use Inputted Course Code</Typography>
                     </Button>
