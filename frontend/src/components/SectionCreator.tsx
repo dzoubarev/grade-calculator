@@ -1,10 +1,11 @@
-import { Box,Paper,Typography,Button } from "@mui/material";
+import { Box,Paper,Typography,Button, IconButton } from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { useState } from "react";
 import { Section } from "./Section";
 import { v4 as uuidv4} from 'uuid';
 import { useLocation, useNavigate } from "react-router-dom";
 import { GradingSchemeType } from "./Home";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
 export type SectionType = {
     name:string,
@@ -19,7 +20,8 @@ function SectionCreator(){
     const navigate = useNavigate();
     const exampleScheme:SectionType[] = [{name:"Homework",weight:"0.1",id:uuidv4()},{name:"Midterm",weight:"0.3",id:uuidv4()},{name:"Final",weight:"0.6",id:uuidv4()}]
 
-    const [sections,setSections] = useState<SectionType[]>( schemes.length === 0 ?  exampleScheme : schemes[0].sections);
+    const [index,setIndex] = useState<number>(0);
+    const [sections,setSections] = useState<SectionType[]>( schemes.length === 0 ?  exampleScheme : schemes[index].sections);
     const [badSubmit,setBadSubmit] = useState<boolean>(false);
     
     const errorTypography = <Typography fontFamily={'initial'}>Make sure all sections have a name and weights are valid decimals between 0.0 and 1.0</Typography>
@@ -43,6 +45,36 @@ function SectionCreator(){
         const updated = sections.map( (section) => { return section.id === idToChange ? {...section, weight: newWeight} : section})
         setSections(updated)
     }
+
+    const changeScheme = (increasing:boolean) =>{
+        const newIndex = increasing
+        ? (index + 1) % schemes.length
+        : (index === 0 ? schemes.length - 1 : index - 1);
+
+        setIndex(newIndex)
+        setSections(schemes[newIndex].sections)
+
+    }
+
+    const changeSchemeButtons = (
+        <Box sx={{
+            display:'flex',
+            flexDirection:'row',
+            justifyContent:'center',
+            alignItems:'center',
+            gap:10
+        }}>
+            <IconButton onClick={() => changeScheme(false)}>
+                <ArrowBackIos></ArrowBackIos>
+            </IconButton>
+            <Typography>
+                Scheme {index+1}/{schemes.length}
+            </Typography>
+            <IconButton onClick={() => changeScheme(false)}>
+                <ArrowForwardIos></ArrowForwardIos>
+            </IconButton>
+        </Box>
+    );
 
     function isValidFloat(str: string): boolean {
         return /^-?\d+(\.\d+)?$/.test(str.trim());
@@ -106,6 +138,7 @@ function SectionCreator(){
                         <Typography fontFamily={'initial'} fontSize={20}>Section Weight</Typography>
                     </Box>
                     {sectionElements}
+                    {schemes.length !== 0 && changeSchemeButtons}
                     <Button autoCapitalize='off' onClick={() => addSection()} sx={{backgroundColor:'#e6e3e3'}}><Typography color='black' fontFamily={'initial'}>Add new section!</Typography></Button>
                     <Button autoCapitalize='off' onClick={() => handleSubmit()} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Confirm Sections!</Typography></Button>
                     {badSubmit ? errorTypography : null}

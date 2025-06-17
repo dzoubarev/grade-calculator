@@ -16,9 +16,8 @@ function Home() {
 
     const navigate = useNavigate();
     const[courseCode,setCourseCode] = useState("")
-    const[myData,setData] = useState<GradingSchemeType[]>([]);
     const[loading,setLoading] = useState<boolean>(false);
-    const[error,setError] = useState<string|null>(null)
+    const[error,setError] = useState<string>("")
 
     const handleChange = (newCode:string) => {
         setCourseCode(newCode.trim())
@@ -38,8 +37,14 @@ function Home() {
             return res.json();
         })
         .then((data:GradingSchemeType[]) => {
-            setData(data);
             setLoading(false);
+            if(data.length === 0){
+                setError("Course code is not yet in the database or is incorrect");
+                setTimeout(() => {
+                    setError("");
+                },2000)
+                return;
+            }
             console.log(data)
             navigate("/sections",{state: {schemes: data}})
         })
@@ -106,6 +111,7 @@ function Home() {
                         <Typography fontFamily={'initial'} color='whitesmoke'>Use Inputted Course Code</Typography>
                     </Button>
                     {loading && <Typography>Loading...</Typography>}
+                    <Typography>{error}</Typography>
                 </Box>
             </Paper>
         </Box>
