@@ -23,14 +23,14 @@ function Home() {
         setCourseCode(newCode.trim())
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async() => {
         
         setCourseCode(courseCode.trim());
         if(courseCode===''){return;}
 
         setLoading(true);
 
-        fetch(`http://localhost:8080/api/scheme/${courseCode}`)
+        await fetch(`http://localhost:8080/api/scheme/${courseCode}`)
         .then((res) => {
             if(!res.ok){throw new Error("Failed to fetch data")};
 

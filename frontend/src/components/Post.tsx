@@ -29,10 +29,10 @@ export default function Post(){
                         padding:5
                     }}>
                         <Typography>This is where changes to the database can be made</Typography>
-                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {navigate("/course")}}>
+                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {navigate("/post/course")}}>
                             <Typography fontFamily={'initial'} color='whitesmoke'>Add New Course</Typography>
                         </Button>
-                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {}}>
+                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {navigate("/post/scheme")}}>
                             <Typography color='whitesmoke'>Add new grading scheme to existing course</Typography>
                         </Button>
                     </Box>

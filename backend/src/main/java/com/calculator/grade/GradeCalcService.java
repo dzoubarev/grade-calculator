@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class GradeCalcService {
     @Autowired
@@ -16,5 +18,14 @@ public class GradeCalcService {
 
     public List<GradingSchemeDTO> getCourseScheme(String courseId){
         return gradingSchemeRepository.findAllByCourse_Id(courseId).stream().map(GradingSchemeDTO::new).toList();
+    }
+
+    @Transactional
+    public Course addCourse(Course course){
+        return courseRepository.save(course);
+    }
+
+    public boolean getCourse(String courseId){
+        return courseRepository.findById(courseId).isPresent();
     }
 }

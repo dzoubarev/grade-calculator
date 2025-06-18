@@ -17,11 +17,24 @@ public class Course {
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)
     private List<GradingScheme> gradingSchemes;
 
+    public Course(){
+        id = null;
+        name = null;
+    }
+
     public String getId(){return id;}
 
     public String getName(){return name;}
 
     public List<GradingScheme> getGradingSchemes(){
         return gradingSchemes;
+    }
+
+    public void setId(String id) { this.id = id; }
+
+    public void setName(String name) { this.name = name; }
+
+    public void setGradingSchemes(List<GradingScheme> gradingSchemes) {
+        this.gradingSchemes = gradingSchemes;
     }
 }
