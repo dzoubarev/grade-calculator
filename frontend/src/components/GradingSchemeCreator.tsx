@@ -1,6 +1,6 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4} from 'uuid';
 import { SectionType } from "./SectionCreator";
 import { useState } from "react";
@@ -9,11 +9,15 @@ import { Section } from "./Section";
 
 export default function GradingSchemeCreator(){
     
+    const location = useLocation();
+    const currId = location.state?.courseId || "";
+
     const navigate = useNavigate();
     const exampleScheme:SectionType[] = [{name:"",weight:"",id:uuidv4()},{name:"",weight:"",id:uuidv4()},{name:"",weight:"",id:uuidv4()}]
 
     const [sections,setSections] = useState<SectionType[]>(exampleScheme);
     const [badSubmit,setBadSubmit] = useState<boolean>(false);
+    const [courseId,setCourseId] = useState(currId === "" ? "" : currId);
     
     const errorTypography = <Typography fontFamily={'initial'}>Make sure all sections have a name and weights are valid decimals between 0.0 and 1.0</Typography>
 
@@ -93,8 +97,8 @@ export default function GradingSchemeCreator(){
                     padding:3
                 }}>
                     <Box sx={{flexDirection:'column', display:'flex', justifyContent:'center', alignItems:'center', gap:2}}>
-                        <Typography fontFamily={'initial'} fontSize={20}>Course Id (Course to add to) </Typography>
-                        <TextField size='small' autoComplete="off"></TextField>
+                        <Typography fontFamily={'initial'} fontSize={20} >Course Id (Course to add to) </Typography>
+                        <TextField size='small' autoComplete="off" value={courseId} onChange={(e) => setCourseId(e.target.value.toUpperCase())}></TextField>
                     </Box>
 
                     <Box sx={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center', gap:13, pr:5}}>

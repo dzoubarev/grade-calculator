@@ -7,6 +7,7 @@ export default function CourseCreator(){
     const navigate = useNavigate();
     const[data,setData] = useState({id:"", name:""});
     const[status,setStatus] = useState("");
+    const[submittedId,setSubmittedId] = useState("");
     
     const handleCourseIdChange = (newCourseId:string) =>{
         setData({...data, id:newCourseId})
@@ -48,6 +49,7 @@ export default function CourseCreator(){
 
             const result = await response.json();
             console.log("Success:", result);
+            setSubmittedId(data.id.trim())
             setData({id:"",name:""})
             setStatus("Successffully posted data!")
             setTimeout(() => {
@@ -125,7 +127,7 @@ export default function CourseCreator(){
                             <Button onClick={() => navigate("/post")} sx={{backgroundColor:'#9c0507'}}>
                                 <Typography color='whitesmoke'>Back to Post Options</Typography>
                             </Button>
-                            <Button onClick={() => navigate("/post/scheme")} sx={{backgroundColor:'#9c0507'}}>
+                            <Button onClick={() => navigate("/post/scheme", {state:{courseId:submittedId}})} sx={{backgroundColor:'#9c0507'}}>
                                 <Typography color='whitesmoke'>Create Grading Scheme for This Course</Typography>
                             </Button>
                         </Box>
