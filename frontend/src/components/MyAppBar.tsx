@@ -46,6 +46,12 @@ function MyAppBar() {
             <Typography variant="h6">About</Typography>
           </Button>
           <Button
+            onClick={() => navigate("/feedback")}
+            sx={{ textTransform: "none", color: "whitesmoke" }}
+          >
+            <Typography variant="h6">Feedback</Typography>
+          </Button>
+          <Button
             onClick={() => navigate("/post")}
             sx={{ textTransform: "none", color: "whitesmoke" }}
           >

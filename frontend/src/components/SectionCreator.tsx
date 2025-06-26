@@ -30,7 +30,7 @@ function SectionCreator() {
   const [badSubmit, setBadSubmit] = useState<boolean>(false);
 
   const addSection = () => {
-    const newSections = [...sections, { name: "", weight: "0.0", id: uuidv4() }];
+    const newSections = [...sections, { name: "", weight: "", id: uuidv4() }];
     setSections(newSections);
   };
 

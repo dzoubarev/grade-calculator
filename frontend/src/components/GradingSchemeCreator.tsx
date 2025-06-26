@@ -29,7 +29,7 @@ export default function GradingSchemeCreator() {
   );
 
   const addSection = () => {
-    setSections((prev) => [...prev, { name: "", weight: "0.0", id: uuidv4() }]);
+    setSections((prev) => [...prev, { name: "", weight: "", id: uuidv4() }]);
   };
 
   const deleteSection = (idToDelete: string) => {
