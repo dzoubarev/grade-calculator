@@ -28,6 +28,19 @@ public class GradingScheme {
     @OneToMany(mappedBy = "gradingScheme", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Section> sections = new ArrayList<>();
 
+    public GradingScheme(){
+        name = null;
+        course = null;
+    }
+
+    public void  setId(UUID id) {this.id = id;}
+
+    public void  setName(String name) {this.name = name;}
+
+    public void  setSections(List<Section> sections) {this.sections = sections;}
+
+    public void setCourse(Course course){this.course = course;}
+
     public Course getCourse(){return course;}
 
     public String getName(){

@@ -16,6 +16,18 @@ public class SectionDTO {
       this.id = section.getId().toString();
      }
 
+     public SectionDTO(){
+      this.name = null;
+      this.weight = null;
+      this.id = null;
+     }
+
+     public void setName(String name){this.name = name;}
+
+     public void setWeight(String weight){this.weight = weight;}
+
+     public void setId(String id){this.id = id;}
+
      public String getName(){return name;}
 
      public String getWeight(){return weight;}

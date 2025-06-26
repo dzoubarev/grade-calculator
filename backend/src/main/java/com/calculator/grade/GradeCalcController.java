@@ -34,4 +34,10 @@ public class GradeCalcController{
     public boolean courseExistsInDB(@PathVariable("courseId") String courseId){
         return gradeCalcService.getCourse(courseId);
     }
+
+    @PostMapping("/scheme")
+    public ResponseEntity<GradingSchemeDTO> addScheme(@RequestBody GradingSchemePostDTO scheme){
+        GradingSchemeDTO saved = new GradingSchemeDTO(gradeCalcService.addScheme(scheme));
+        return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
 }

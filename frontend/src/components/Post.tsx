@@ -3,41 +3,62 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import MyAppBar from "./MyAppBar";
 
-export default function Post(){
-    const navigate = useNavigate();
+export default function Post() {
+  const navigate = useNavigate();
 
-    return(
-        <Box>
-            <MyAppBar></MyAppBar>
-            <Box sx={{
-                width:'100%',
-                minHeight:'95vh',
-                backgroundColor:'whitesmoke',
-                display:'flex',
-                flexDirection:'row',
-                justifyContent:'center',
-                alignItems:'center',
-                gap:5
-            }}>
-                <Paper elevation={10} sx={{minHeight:'50vh', width:'40%', backgroundColor:''}}>
-                    <Box sx={{
-                        display:'flex',
-                        flexDirection:'column',
-                        justifyContent:'center',
-                        alignItems:'center',
-                        gap:10,
-                        padding:5
-                    }}>
-                        <Typography>This is where changes to the database can be made</Typography>
-                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {navigate("/post/course")}}>
-                            <Typography fontFamily={'initial'} color='whitesmoke'>Add New Course</Typography>
-                        </Button>
-                        <Button sx={{backgroundColor:'#9c0507'}} onClick={() => {navigate("/post/scheme")}}>
-                            <Typography color='whitesmoke'>Add new grading scheme to existing course</Typography>
-                        </Button>
-                    </Box>
-                </Paper>
-            </Box>
-        </Box>
-    );
+  return (
+    <Box sx={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <MyAppBar />
+      <Box
+        sx={{
+          height: 'calc(95vh)',
+          backgroundColor: 'whitesmoke',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          px: 2,
+        }}
+      >
+        <Paper
+          elevation={12}
+          sx={{
+            width: '100%',
+            maxWidth: 500,
+            bgcolor: 'white',
+            borderRadius: 4,
+            p: 4,
+            textAlign: 'center',
+          }}
+        >
+          <Typography variant="h5" fontWeight={600} fontFamily="initial" mb={3}>
+            Database Management
+          </Typography>
+          <Typography variant="body1" fontFamily="initial" mb={5}>
+            Make changes to the database using the options below.
+          </Typography>
+
+          <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: '#9c0507', '&:hover': { backgroundColor: '#7a0405' } }}
+              onClick={() => navigate("/post/course")}
+            >
+              <Typography fontFamily="initial" color="whitesmoke">
+                Add New Course
+              </Typography>
+            </Button>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: '#9c0507', '&:hover': { backgroundColor: '#7a0405' } }}
+              onClick={() => navigate("/post/scheme")}
+            >
+              <Typography fontFamily="initial" color="whitesmoke">
+                Add Grading Scheme to Course
+              </Typography>
+            </Button>
+          </Box>
+        </Paper>
+      </Box>
+    </Box>
+  );
 }

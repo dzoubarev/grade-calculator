@@ -25,6 +25,12 @@ public class GradingSchemeDTO {
                          .toList();
     }
 
+    public void setSections(List<SectionDTO> sections){
+        this.sections = sections;
+    }
+
+    public void setName(String name){this.name = name;}
+    
     public void addSection(SectionDTO newSection){
         sections.add(newSection);
     }

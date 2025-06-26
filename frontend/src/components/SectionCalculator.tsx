@@ -1,111 +1,178 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
-import { useLocation } from "react-router-dom";
-import { SectionType } from "./SectionCreator";
-import MyAppBar from "./MyAppBar";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import CalculatorSection from "./CalculatorSection";
-import { useNavigate } from "react-router-dom";
+import MyAppBar from "./MyAppBar";
+import { SectionType } from "./SectionCreator";
 
 export type GradeType = {
-    sectionId:string,
-    grade:string
-}
+  sectionId: string;
+  grade: string;
+};
 
 export default function SectionCalculator() {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    const location = useLocation();
-    const sections: SectionType[] = location.state?.sections || [];
+  const sections: SectionType[] = location.state?.sections || [];
 
-    const[badSubmit,setBadSubmit] = useState<boolean>(false);
-    const[grades,setGrades] = useState<GradeType[]>(sections.map((section) => { return {sectionId:section.id, grade:""} }))
-    const[selectedId,setSelectedId] = useState<string|null>(null);
+  const [badSubmit, setBadSubmit] = useState<boolean>(false);
+  const [grades, setGrades] = useState<GradeType[]>(
+    sections.map((section) => ({ sectionId: section.id, grade: "" }))
+  );
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-    const navigate = useNavigate();
+  const errorTypography = (
+    <Typography
+      fontFamily={"initial"}
+      color="error.main"
+      sx={{ mt: 1, fontWeight: 500 }}
+    >
+      Make sure all grades are valid numbers between 0.0 and 100.0
+    </Typography>
+  );
 
-    const errorTypography = <Typography fontFamily={'initial'}>Make sure all grades are valid numbers between 0.0 and 100.0</Typography>
-
-    const changeGrade = (idToChange:string, newGrade:string) => {
-        const updated = grades.map( (singleGrade) => { return singleGrade.sectionId === idToChange ? {...singleGrade, grade:newGrade} : singleGrade})
-        setGrades(updated);
-    }
-
-    const sectionElements = sections.map((section) => <CalculatorSection section={section} changeGrade={changeGrade} isSelected={selectedId === section.id} setSelected={setSelectedId} key={section.id}/>)
-
-    function isValidFloat(str: string): boolean {
-        return /^-?\d+(\.\d+)?$/.test(str.trim());
-    }
-
-    const handleSubmit = () =>{
-    
-        if (!selectedId) {
-            alert("Please select a section first.");
-            return;
-        }
-
-        const hasInvalid = grades.some(grade => {
-            if(grade.sectionId === selectedId){return false;}
-
-            if(!isValidFloat(grade.grade.trim())){return true;}
-
-            const float = parseFloat(grade.grade.trim());
-            return (float < 0  || float > 100);
-
-        }
-        );
-
-        if(hasInvalid){
-            setBadSubmit(true);
-            setTimeout(()=>setBadSubmit(false), 2000);
-            return;
-        }
-
-        navigate("/results",{state:{sections:sections, grades:grades, selectedId:selectedId}})
-    }
-
-    return(
-    <Box>
-        <MyAppBar/>
-        <Box sx={{
-            width:'100%',
-            minHeight:'95vh',
-            backgroundColor:'whitesmoke',
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center',
-            gap:3,
-        }}>
-            <Box sx={{
-            display:'flex',
-            flexDirection:'column',
-            alignItems:'center'
-            }}>
-                <Typography variant='h5' padding={3} fontFamily={'initial'}>
-                    Calculate your minimum needed grade for a section!
-                </Typography>
-                <Typography>Click on the button next to the section you want the calculation to be done for</Typography>
-            </Box>
-            <Paper elevation={10} sx={{width:'75%'}}>
-                <Box sx={{
-                    backgroundColor:'whitesmoke',
-                    display:'flex',
-                    flexDirection:'column',
-                    alignItems:'center',
-                    gap:5,
-                    padding:3
-                }}>
-                    <Box sx={{flexDirection:'row', display:'flex', justifyContent:'center', alignItems:'center', gap:20, pr:7}}>
-                        <Typography fontFamily={'initial'} fontSize={20}>Section Name and Weight</Typography>
-                        <Typography fontFamily={'initial'} fontSize={20}>Grade for Section</Typography>
-                    </Box>
-                    
-                    {sectionElements}
-                    <Button autoCapitalize='off' onClick={handleSubmit} sx={{backgroundColor:'#9c0507'}}><Typography color='whitesmoke' fontFamily={'initial'}>Calculate</Typography></Button>
-                    {badSubmit ? errorTypography : null}
-                </Box>
-                
-            </Paper>
-        </Box>
-    </Box>
+  const changeGrade = (idToChange: string, newGrade: string) => {
+    const updated = grades.map((singleGrade) =>
+      singleGrade.sectionId === idToChange
+        ? { ...singleGrade, grade: newGrade }
+        : singleGrade
     );
+    setGrades(updated);
+  };
+
+  const sectionElements = sections.map((section) => (
+    <CalculatorSection
+      key={section.id}
+      section={section}
+      changeGrade={changeGrade}
+      isSelected={selectedId === section.id}
+      setSelected={setSelectedId}
+    />
+  ));
+
+  function isValidFloat(str: string): boolean {
+    return /^-?\d+(\.\d+)?$/.test(str.trim());
+  }
+
+  const handleSubmit = () => {
+    if (!selectedId) {
+      alert("Please select a section first.");
+      return;
+    }
+
+    const hasInvalid = grades.some((grade) => {
+      if (grade.sectionId === selectedId) return false;
+
+      if (!isValidFloat(grade.grade.trim())) return true;
+
+      const float = parseFloat(grade.grade.trim());
+      return float < 0 || float > 100;
+    });
+
+    if (hasInvalid) {
+      setBadSubmit(true);
+      setTimeout(() => setBadSubmit(false), 2500);
+      return;
+    }
+
+    navigate("/results", { state: { sections, grades, selectedId } });
+  };
+
+  return (
+    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+      <MyAppBar />
+      <Box
+        sx={{
+          width: "100%",
+          maxWidth: 900,
+          mx: "auto",
+          mt: 4,
+          mb: 6,
+          px: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 3,
+        }}
+      >
+        <Typography
+          variant="h4"
+          fontWeight={700}
+          fontFamily={"initial"}
+          textAlign="center"
+          gutterBottom
+          color="text.primary"
+        >
+          Calculate Your Minimum Needed Grade
+        </Typography>
+
+        <Typography
+          variant="body1"
+          fontFamily={"initial"}
+          color="text.secondary"
+          textAlign="center"
+          maxWidth={600}
+        >
+          Select the section you want to calculate for by clicking the circle
+          next to it, then enter your grades in the other sections.
+        </Typography>
+
+        <Paper
+          elevation={6}
+          sx={{
+            width: "100%",
+            p: 4,
+            bgcolor: "background.paper",
+            borderRadius: 2,
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              px: 1,
+              mb: 2,
+              fontWeight: 600,
+              fontSize: 18,
+              color: "text.secondary",
+              fontFamily: "initial",
+            }}
+          >
+            <Box sx={{ flexBasis: "60%" }}>Section Name and Weight</Box>
+            <Box sx={{ flexBasis: "30%", textAlign: "center" }}>Grade for Section</Box>
+          </Box>
+
+          {sectionElements}
+
+          <Box
+            sx={{
+              mt: 4,
+              display: "flex",
+              justifyContent: "center",
+              gap: 3,
+            }}
+          >
+            <Button
+              variant="contained"
+              onClick={handleSubmit}
+              sx={{
+                bgcolor: "#9c0507",
+                px: 5,
+                py: 1.3,
+                fontWeight: 600,
+                textTransform: "none",
+                "&:hover": { bgcolor: "#7a0404" },
+              }}
+            >
+              Calculate
+            </Button>
+          </Box>
+
+          {badSubmit && errorTypography}
+        </Paper>
+      </Box>
+    </Box>
+  );
 }
 

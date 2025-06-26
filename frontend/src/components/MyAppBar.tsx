@@ -1,34 +1,60 @@
-import {AppBar, Toolbar, IconButton, Typography, Box, Button} from '@mui/material'
-import {Home} from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  Box,
+  Button,
+} from "@mui/material";
+import { Home } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
-function MyAppBar(){
-    const navigate = useNavigate();
+function MyAppBar() {
+  const navigate = useNavigate();
 
-    return(
-        <Box sx={{flexGrow:1}}>
-            <AppBar position='static' sx={{backgroundColor:'#9c0507'}}>
-                <Toolbar sx={{gap:10}}>
-                    <IconButton
-                        size="large"
-                        edge="start"
-                        color="inherit"
-                        aria-label="menu"
-                        sx={{ mr: 2 }}
-                        onClick={() => navigate('/')}
-                    >
-                        <Home/>
-                    </IconButton>
-                    <Button onClick={() => navigate('/about')} sx={{textTransform:'none'}}>
-                        <Typography variant='h5' color='whitesmoke'>About</Typography>
-                    </Button>
-                    <Button onClick={() => navigate('/post')} sx={{textTransform:'none'}}>
-                        <Typography variant='h5' color='whitesmoke'>Post</Typography>
-                    </Button>
-                </Toolbar>
-            </AppBar>
+  return (
+    <AppBar position="static" sx={{ backgroundColor: "#9c0507" }}>
+      <Toolbar
+        sx={{
+          display: "flex",
+          justifyContent: "space-between",
+          px: 3,
+        }}
+      >
+        {/* Left side: Home icon + Title (if desired) */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="home"
+            onClick={() => navigate("/")}
+          >
+            <Home />
+          </IconButton>
+          <Typography variant="h6" color="whitesmoke" sx={{ fontWeight: 600 }}>
+            GradeCalc
+          </Typography>
         </Box>
-    )
+
+        {/* Right side: Navigation buttons */}
+        <Box sx={{ display: "flex", gap: 3 }}>
+          <Button
+            onClick={() => navigate("/about")}
+            sx={{ textTransform: "none", color: "whitesmoke" }}
+          >
+            <Typography variant="h6">About</Typography>
+          </Button>
+          <Button
+            onClick={() => navigate("/post")}
+            sx={{ textTransform: "none", color: "whitesmoke" }}
+          >
+            <Typography variant="h6">Post</Typography>
+          </Button>
+        </Box>
+      </Toolbar>
+    </AppBar>
+  );
 }
 
 export default MyAppBar;

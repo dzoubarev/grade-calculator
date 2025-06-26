@@ -21,9 +21,21 @@ public class Section {
     @JoinColumn(name = "scheme_id")
     private GradingScheme gradingScheme;
 
+    public Section(){
+        name = null;
+        weight = 0;
+        gradingScheme = null;
+    }
+
+    public void setScheme(GradingScheme gradingScheme){this.gradingScheme = gradingScheme;}
+
+    public void setName(String name){this.name = name;}
+
     public GradingScheme getScheme(){ return gradingScheme; }
 
     public String getName(){ return name; }
+
+    public void setWeight(double weight){ this.weight = weight;}
 
     public double getWeight(){ return weight; }
 
