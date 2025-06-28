@@ -8,7 +8,7 @@ export default function Feedback(){
     const[status,setStatus] = useState<string>("");
 
     const handleSubmit = async() => {
-        if(feedback.trim() === " "){return;}
+        if(feedback.trim() === ""){return;}
 
         if(category === ""){
             setStatus("Please select a category for the feedback.")
@@ -23,10 +23,11 @@ export default function Feedback(){
         })
 
         if(!result.ok){
-            setStatus("Failed to send feedback.")
+            setStatus("Failed to send feedback.");
         }
         else{
-            setStatus("Sent feedback successfully!")
+            setStatus("Sent feedback successfully!");
+            setFeedback("");
         }
 
         setTimeout(() => {setStatus("")} , 2000);

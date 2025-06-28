@@ -1,7 +1,9 @@
-package com.calculator.grade;
+package com.calculator.grade.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.calculator.grade.model.GradingScheme;
 
 public class GradingSchemeDTO {
     private String name;

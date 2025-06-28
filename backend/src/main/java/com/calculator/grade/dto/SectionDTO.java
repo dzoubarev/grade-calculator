@@ -1,4 +1,6 @@
-package com.calculator.grade;
+package com.calculator.grade.dto;
+
+import com.calculator.grade.model.Section;
 
 public class SectionDTO {
     private String name;

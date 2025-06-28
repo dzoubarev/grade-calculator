@@ -1,4 +1,4 @@
-package com.calculator.grade;
+package com.calculator.grade.dto;
 
 public class Feedback {
     private String feedback;

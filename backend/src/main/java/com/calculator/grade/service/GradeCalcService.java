@@ -1,10 +1,19 @@
-package com.calculator.grade;
+package com.calculator.grade.service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.calculator.grade.dto.GradingSchemeDTO;
+import com.calculator.grade.dto.GradingSchemePostDTO;
+import com.calculator.grade.dto.SectionDTO;
+import com.calculator.grade.model.Course;
+import com.calculator.grade.model.GradingScheme;
+import com.calculator.grade.model.Section;
+import com.calculator.grade.repository.CourseRepository;
+import com.calculator.grade.repository.GradingSchemeRepository;
 
 import jakarta.transaction.Transactional;
 

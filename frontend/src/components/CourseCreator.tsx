@@ -21,6 +21,7 @@ export default function CourseCreator() {
     if (data.id.trim() === "" || data.name.trim() === "") return;
 
     try {
+      
       const checkRes = await fetch(`http://localhost:8080/api/course/${data.id}`);
 
       if (!checkRes.ok) {
@@ -34,11 +35,13 @@ export default function CourseCreator() {
         setTimeout(() => setStatus(""), 2000);
         return;
       }
+      const token = sessionStorage.getItem("token")
 
       const response = await fetch("http://localhost:8080/api/course", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ id: data.id.trim(), name: data.name.trim() }),
+        
       });
 
       if (!response.ok) {

@@ -1,6 +1,9 @@
-package com.calculator.grade;
+package com.calculator.grade.service;
 
 import org.springframework.stereotype.Service;
+
+import com.calculator.grade.dto.Feedback;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

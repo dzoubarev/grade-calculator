@@ -1,4 +1,4 @@
-package com.calculator.grade;
+package com.calculator.grade.model;
 
 import java.util.List;
 

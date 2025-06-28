@@ -68,7 +68,7 @@ function Home() {
           alignItems: "center",
           gap: 5,
           p: 3,
-          overflow: "hidden", // prevent page scroll, only inner scroll
+          overflow: "hidden", 
         }}
       >
         {/* Option 1 - Create Own Course */}
@@ -76,7 +76,7 @@ function Home() {
           elevation={8}
           sx={{
             flex: "1 1 40%",
-            maxHeight: "calc(100vh - 64px - 48px)", // viewport height minus appbar (64px typical) and padding
+            maxHeight: "calc(100vh - 64px - 48px)",
             backgroundColor: "#f9f9f9",
             borderRadius: 3,
             display: "flex",

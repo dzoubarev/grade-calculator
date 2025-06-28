@@ -6,7 +6,7 @@ import {
   Box,
   Button,
 } from "@mui/material";
-import { Home } from "@mui/icons-material";
+import { Home, Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
 function MyAppBar() {
@@ -51,12 +51,12 @@ function MyAppBar() {
           >
             <Typography variant="h6">Feedback</Typography>
           </Button>
-          <Button
-            onClick={() => navigate("/post")}
+          <IconButton
+            onClick={() => navigate("/login")}
             sx={{ textTransform: "none", color: "whitesmoke" }}
           >
-            <Typography variant="h6">Post</Typography>
-          </Button>
+            <Person/>
+          </IconButton>
         </Box>
       </Toolbar>
     </AppBar>

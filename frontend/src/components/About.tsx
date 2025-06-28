@@ -5,7 +5,7 @@ export default function About() {
   return (
     <Box
       sx={{
-        minHeight: "95vh",         // Account for app bar height (~5%)
+        minHeight: "95vh",         
         backgroundColor: "#fff5f5",
         display: "flex",
         flexDirection: "column",
@@ -17,7 +17,7 @@ export default function About() {
           flexGrow: 1,
           display: "flex",
           justifyContent: "center",
-          alignItems: "center",   // Center vertically
+          alignItems: "center",   
           px: 2,
           py: 3,
         }}
@@ -30,8 +30,8 @@ export default function About() {
             borderRadius: 3,
             backgroundColor: "white",
             boxShadow: "0 8px 20px rgba(156, 5, 7, 0.3)",
-            maxHeight: "80vh",     // prevent overflow if text is too long
-            overflowY: "auto",    // scroll inside paper only if needed
+            maxHeight: "80vh",     
+            overflowY: "auto",    
           }}
         >
           <Typography

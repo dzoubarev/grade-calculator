@@ -9,6 +9,7 @@ import Post from './components/Post';
 import CourseCreator from './components/CourseCreator';
 import GradingSchemeCreator from './components/GradingSchemeCreator';
 import Feedback from './components/Feedback';
+import AdminLogin from './components/AdminLogin';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/post/course" element={<CourseCreator/>}></Route>
         <Route path="/post/scheme" element={<GradingSchemeCreator/>}></Route>
         <Route path="/feedback" element={<Feedback/>}></Route>
+        <Route path="/login" element={<AdminLogin/>}></Route>
     </Routes>
   );
 }
