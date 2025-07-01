@@ -6,6 +6,7 @@ import java.util.List;
 import com.calculator.grade.model.GradingScheme;
 
 public class GradingSchemeDTO {
+    private String id;
     private String name;
     private List<SectionDTO> sections;
 
@@ -20,6 +21,7 @@ public class GradingSchemeDTO {
     }
 
     public GradingSchemeDTO(GradingScheme scheme){
+        this.id = scheme.getId().toString();
         this.name = scheme.getName();
         this.sections = scheme.getSections()
                          .stream()
@@ -27,8 +29,14 @@ public class GradingSchemeDTO {
                          .toList();
     }
 
+    public GradingSchemeDTO(){};
+
     public void setSections(List<SectionDTO> sections){
         this.sections = sections;
+    }
+
+    public void setId(String id){
+        this.id = id;
     }
 
     public void setName(String name){this.name = name;}
@@ -43,5 +51,9 @@ public class GradingSchemeDTO {
 
     public List<SectionDTO> getSections() {
         return sections;
+    }
+
+    public String getId(){
+        return id;
     }
 }

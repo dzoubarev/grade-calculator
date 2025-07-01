@@ -6,8 +6,9 @@ import org.springframework.stereotype.Repository;
 import com.calculator.grade.model.GradingScheme;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
-public interface GradingSchemeRepository extends JpaRepository<GradingScheme, Long> {
+public interface GradingSchemeRepository extends JpaRepository<GradingScheme, UUID> {
     List<GradingScheme> findAllByCourse_Id(String courseId);
 }

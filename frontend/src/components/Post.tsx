@@ -56,6 +56,15 @@ export default function Post() {
                 Add Grading Scheme to Course
               </Typography>
             </Button>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: '#9c0507', '&:hover': { backgroundColor: '#7a0405' } }}
+              onClick={() => navigate("/post/change")}
+            >
+              <Typography fontFamily="initial" color="whitesmoke">
+                Change grading schemes for a course
+              </Typography>
+            </Button>
           </Box>
         </Paper>
       </Box>

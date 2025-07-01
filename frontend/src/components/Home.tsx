@@ -7,6 +7,7 @@ import { SectionType } from "./SectionCreator";
 export type GradingSchemeType = {
   name: string;
   sections: SectionType[];
+  id:string;
 };
 
 function Home() {

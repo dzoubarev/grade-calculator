@@ -2,6 +2,7 @@ package com.calculator.grade.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
@@ -25,6 +26,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/sendFeedback").permitAll()
                 .requestMatchers("/api/scheme/*").permitAll()
                 .requestMatchers("/api/course").permitAll()
+                .requestMatchers(HttpMethod.PUT, "/api/change/scheme").permitAll()
                 .anyRequest().authenticated()
             );
 

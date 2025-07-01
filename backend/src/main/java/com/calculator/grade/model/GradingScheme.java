@@ -46,6 +46,6 @@ public class GradingScheme {
     public String getName(){
         return name;
     }
-
+    public UUID getId(){return id;}
     public List<Section> getSections(){ return sections;}
 }
