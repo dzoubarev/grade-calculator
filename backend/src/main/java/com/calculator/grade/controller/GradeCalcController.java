@@ -24,7 +24,7 @@ public class GradeCalcController{
     @Autowired
     private GradeCalcService gradeCalcService;
 
-    @PostMapping("/course")
+    @PostMapping("/add-course")
     public ResponseEntity<Course> addCourse(@RequestBody Course course){
         Course saved = gradeCalcService.addCourse(course);
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
@@ -40,7 +40,7 @@ public class GradeCalcController{
         return gradeCalcService.getCourse(courseId);
     }
 
-    @PostMapping("/scheme")
+    @PostMapping("/add-scheme")
     public ResponseEntity<GradingSchemeDTO> addScheme(@RequestBody GradingSchemePostDTO scheme){
         GradingSchemeDTO saved = new GradingSchemeDTO(gradeCalcService.addScheme(scheme));
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);

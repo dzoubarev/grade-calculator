@@ -1,8 +1,9 @@
-import { Box, Button, Paper, TextField, Typography } from "@mui/material";
+import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SectionType } from "./SectionCreator";
+import { GitHub } from "@mui/icons-material";
 
 export type GradingSchemeType = {
   name: string;
@@ -17,17 +18,17 @@ function Home() {
   const [error, setError] = useState<string>("");
 
   const handleChange = (newCode: string) => {
-    setCourseCode(newCode.trim());
+    setCourseCode(newCode);
   };
 
   const handleSubmit = async () => {
-    setCourseCode(courseCode.trim());
-    if (courseCode === "") return;
+    if (courseCode.trim() === "") return;
 
     setLoading(true);
 
+    const cleanedId = courseCode.trim().replace(/\s+/g, "");
     try {
-      const res = await fetch(`http://localhost:8080/api/scheme/${courseCode}`);
+      const res = await fetch(`http://localhost:8080/api/scheme/${cleanedId}`);
       if (!res.ok) throw new Error("Failed to fetch data");
       const data: GradingSchemeType[] = await res.json();
       setLoading(false);
@@ -54,12 +55,10 @@ function Home() {
         flexDirection: "column",
       }}
     >
-      {/* AppBar at the top, fixed height ~5% */}
       <Box sx={{ flexShrink: 0 }}>
         <MyAppBar />
       </Box>
 
-      {/* Main content fills remaining height */}
       <Box
         sx={{
           flexGrow: 1,
@@ -134,7 +133,7 @@ function Home() {
           <Typography sx={{ mb: 1 }}>
             Enter a course code to load the grading scheme.
           </Typography>
-          <Typography sx={{ mb: 3, fontStyle: "italic" }}>Ex: PHYS142</Typography>
+          <Typography sx={{ mb: 3, fontStyle: "italic" }}>Ex: PHYS 142</Typography>
 
           <TextField
             size="small"
@@ -168,6 +167,9 @@ function Home() {
           )}
         </Paper>
       </Box>
+      <IconButton href="http://github.com/dzoubarev/grade-calculator" sx={{pb:5}}>
+          <GitHub></GitHub>
+      </IconButton>
     </Box>
   );
 }

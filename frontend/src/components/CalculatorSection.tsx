@@ -24,59 +24,88 @@ const CalculatorSection: FC<CalculatorSectionProps> = ({
     <Box
       sx={{
         display: "flex",
-        flexDirection: "row",
+        flexDirection: "row", 
         alignItems: "center",
         justifyContent: "space-between",
         width: "100%",
-        py: 1.5,
-        px: 1,
+        py: 2,
+        px: { xs: 0.5, sm: 1 },
         borderBottom: "1px solid",
         borderColor: "divider",
+        gap: { xs: 1, sm: 1.5 },
+        flexWrap: { xs: "wrap", sm: "nowrap" },
       }}
     >
       {/* Section name and weight */}
-      <Box sx={{ flexBasis: "60%", textAlign: "left" }}>
-        <Typography fontWeight={600} fontFamily="initial" color="text.primary">
+      <Box sx={{ flexBasis: { xs: "calc(60% - 10px)", sm: "60%" } }}>
+        <Typography
+          fontWeight={600}
+          fontFamily="initial"
+          color="text.primary"
+          sx={{ fontSize: { xs: "0.85rem", sm: "1rem" } }}
+        >
           {section.name}
         </Typography>
         <Typography
           variant="body2"
           fontFamily="initial"
           color="text.secondary"
-          sx={{ mt: 0.3 }}
+          sx={{
+            mt: 0.3,
+            fontSize: { xs: "0.75rem", sm: "0.875rem" },
+          }}
         >
           ({displayWeight}%)
         </Typography>
       </Box>
 
-      {/* Grade input or notice + selection checkbox */}
+      {/* Grade input or notice */}
       <Box
         sx={{
-          flexBasis: "35%",
+          flexBasis: { xs: "calc(30% - 10px)", sm: "30%" },
           display: "flex",
           alignItems: "center",
-          gap: 2,
+          justifyContent: { xs: "flex-end", sm: "center" },
         }}
       >
         {!isSelected ? (
           <TextField
-            placeholder={`Grade for ${section.name}`}
+            placeholder="Grade"
             size="small"
             autoComplete="off"
-            fullWidth
+            sx={{
+              width: { xs: "80px", sm: "auto" },
+              "& .MuiInputBase-input": {
+                fontSize: { xs: "1rem", sm: "1rem" },
+                padding: { xs: "6px 8px", sm: "8.5px 14px" },
+              },
+            }}
             onChange={(e) => changeGrade(section.id, e.target.value)}
           />
         ) : (
           <Typography
-            fontSize={14}
+            fontSize={{ xs: "0.7rem", sm: 14 }}
             fontWeight={600}
             color="error.main"
-            sx={{ userSelect: "none" }}
+            sx={{
+              userSelect: "none",
+              textAlign: "right",
+              width: { xs: "80px", sm: "auto" },
+            }}
           >
-            This section will be calculated
+            Section to Calculate
           </Typography>
         )}
+      </Box>
 
+      {/* Checkbox */}
+      <Box
+        sx={{
+          width: { xs: "auto", sm: "auto" },
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
         <Checkbox
           icon={<RadioButtonUnchecked />}
           checkedIcon={<RadioButtonChecked />}
@@ -87,6 +116,7 @@ const CalculatorSection: FC<CalculatorSectionProps> = ({
             "&.Mui-checked": {
               color: "error.main",
             },
+            padding: { xs: "4px", sm: "9px" },
           }}
           inputProps={{ "aria-label": `Select section ${section.name}` }}
         />

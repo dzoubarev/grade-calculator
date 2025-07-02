@@ -66,9 +66,11 @@ export default function GradingSchemeCreator() {
       setTimeout(() => setBadSubmit(false), 2500);
       return;
     }
+    const cleanedId = courseId.trim().replace(/\s+/g, "");
+    if(cleanedId === ""){return;}
 
     try {
-      const checkRes = await fetch(`http://localhost:8080/api/course/${courseId}`);
+      const checkRes = await fetch(`http://localhost:8080/api/course/${cleanedId}`);
 
       if (!checkRes.ok) throw new Error("Failed to fetch course");
 
@@ -81,10 +83,10 @@ export default function GradingSchemeCreator() {
       }
       
       const token = sessionStorage.getItem("token")
-      const response = await fetch("http://localhost:8080/api/scheme", {
+      const response = await fetch("http://localhost:8080/api/add-scheme", {
         method: "POST",
         headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ courseId, sections, name: "Scheme" }),
+        body: JSON.stringify({ courseId:cleanedId, sections, name: "Scheme" }),
       });
 
       if (!response.ok) throw new Error("Failed to submit");
@@ -202,6 +204,13 @@ export default function GradingSchemeCreator() {
               sx={{ backgroundColor: "#9c0507", "&:hover": { backgroundColor: "#7a0405" } }}
             >
               Add Scheme to Database
+            </Button>
+            <Button
+              onClick={() => navigate("/post")}
+              variant="outlined"
+              sx={{ textTransform: "none", minWidth: 180 }}
+            >
+              Back to Post Options
             </Button>
           </Box>
 

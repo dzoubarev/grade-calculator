@@ -19,10 +19,11 @@ export default function CourseCreator() {
 
   const postData = async () => {
     if (data.id.trim() === "" || data.name.trim() === "") return;
-
+    const cleanedId = data.id.trim().replace(/\s+/g, "");
+    const cleanedName = data.name.trim();
     try {
       
-      const checkRes = await fetch(`http://localhost:8080/api/course/${data.id}`);
+      const checkRes = await fetch(`http://localhost:8080/api/course/${cleanedId}`);
 
       if (!checkRes.ok) {
         throw new Error("Failed to fetch data");
@@ -37,10 +38,10 @@ export default function CourseCreator() {
       }
       const token = sessionStorage.getItem("token")
 
-      const response = await fetch("http://localhost:8080/api/course", {
+      const response = await fetch("http://localhost:8080/api/add-course", {
         method: "POST",
         headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}` },
-        body: JSON.stringify({ id: data.id.trim(), name: data.name.trim() }),
+        body: JSON.stringify({ id: cleanedId, name: cleanedName }),
         
       });
 
@@ -54,35 +55,37 @@ export default function CourseCreator() {
       setData({ id: "", name: "" });
       setStatus("Successfully posted data!");
       setTimeout(() => setStatus(""), 2000);
-    } catch (error) {
+    } 
+    catch (error) {
       setStatus("Failed to post data.");
       setTimeout(() => setStatus(""), 2000);
     }
   };
 
   return (
-    <Box sx={{ minHeight: "95vh", backgroundColor: "whitesmoke" }}>
-      <MyAppBar />
-      <Box
+    <Box sx={{ minHeight: "100vh", backgroundColor: "whitesmoke", overflowX: "hidden" }}>
+    <MyAppBar />
+    <Box
+      sx={{
+        width: "100%",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        pt: 6,
+        px: 2,
+      }}
+    >
+      <Paper
+        elevation={10}
         sx={{
           width: "100%",
+          maxWidth: 500, 
+          p: { xs: 3, sm: 5 },
           display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          pt: 6,
-          px: 2,
+          flexDirection: "column",
+          gap: 4,
         }}
       >
-        <Paper
-          elevation={10}
-          sx={{
-            width: { xs: "90%", sm: "60%", md: "50%" },
-            p: 5,
-            display: "flex",
-            flexDirection: "column",
-            gap: 4,
-          }}
-        >
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="h6" gutterBottom>
               Course Code (Ex. MATH133)

@@ -26,7 +26,12 @@ export default function SectionCalculator() {
     <Typography
       fontFamily={"initial"}
       color="error.main"
-      sx={{ mt: 1, fontWeight: 500 }}
+      sx={{
+        mt: { xs: 1, sm: 2 },
+        fontWeight: 500,
+        textAlign: "center",
+        fontSize: { xs: "0.7rem", sm: "0.875rem" },
+      }}
     >
       Make sure all grades are valid numbers between 0.0 and 100.0
     </Typography>
@@ -80,20 +85,22 @@ export default function SectionCalculator() {
   };
 
   return (
-    <Box sx={{ minHeight: "100vh", bgcolor: "#f5f5f5" }}>
+    <Box sx={{ overflow: "hidden", width: "100vw" }}>
       <MyAppBar />
       <Box
         sx={{
           width: "100%",
-          maxWidth: 900,
-          mx: "auto",
-          mt: 4,
-          mb: 6,
-          px: 2,
+          minHeight: "calc(100vh - 64px)",
+          bgcolor: "#f5f5f5",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 3,
+          gap: { xs: 2, sm: 4 },
+          pt: { xs: 2, sm: 4 },
+          pb: { xs: 2, sm: 6 },
+          px: { xs: 1, sm: 4 },
+          overflow: "auto",
+          boxSizing: "border-box",
         }}
       >
         <Typography
@@ -101,8 +108,11 @@ export default function SectionCalculator() {
           fontWeight={700}
           fontFamily={"initial"}
           textAlign="center"
-          gutterBottom
           color="text.primary"
+          sx={{
+            fontSize: { xs: "1.4rem", sm: "2.125rem" },
+            flexShrink: 0,
+          }}
         >
           Calculate Your Minimum Needed Grade
         </Typography>
@@ -112,7 +122,11 @@ export default function SectionCalculator() {
           fontFamily={"initial"}
           color="text.secondary"
           textAlign="center"
-          maxWidth={600}
+          sx={{
+            fontSize: { xs: "0.85rem", sm: "1rem" },
+            maxWidth: { xs: "90%", sm: 600 },
+            flexShrink: 0,
+          }}
         >
           Select the section you want to calculate for by clicking the circle
           next to it, then enter your grades in the other sections.
@@ -121,36 +135,49 @@ export default function SectionCalculator() {
         <Paper
           elevation={6}
           sx={{
-            width: "100%",
-            p: 4,
+            width: { xs: "calc(100% - 8px)", sm: "70%", md: "60%" },
+            maxWidth: { sm: "900px" },
             bgcolor: "background.paper",
             borderRadius: 2,
+            p: { xs: 1, sm: 4 },
+            flexShrink: 0,
+            boxSizing: "border-box",
           }}
         >
+          {/* Headers (shown on all screen sizes now) */}
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
               px: 1,
-              mb: 2,
+              mb: { xs: 1.5, sm: 2 },
               fontWeight: 600,
-              fontSize: 18,
+              fontSize: { xs: 13, sm: 18 },
               color: "text.secondary",
-              fontFamily: "initial",
+              fontFamily: "initial"
             }}
           >
             <Box sx={{ flexBasis: "60%" }}>Section Name and Weight</Box>
-            <Box sx={{ flexBasis: "30%", textAlign: "center" }}>Grade for Section</Box>
+            <Box
+              sx={{
+                flexBasis: "30%",
+                textAlign: { xs: "right", sm: "center" },
+                transform: "translateX(-36px)"
+              }}
+            >
+              Grade for Section
+            </Box>
           </Box>
 
           {sectionElements}
 
           <Box
             sx={{
-              mt: 4,
               display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "center",
-              gap: 3,
+              gap: { xs: 1, sm: 2 },
+              mt: { xs: 2, sm: 4 },
             }}
           >
             <Button
@@ -158,10 +185,11 @@ export default function SectionCalculator() {
               onClick={handleSubmit}
               sx={{
                 bgcolor: "#9c0507",
-                px: 5,
-                py: 1.3,
+                px: { xs: 2, sm: 5 },
+                py: { xs: 0.5, sm: 1.3 },
                 fontWeight: 600,
                 textTransform: "none",
+                fontSize: { xs: "0.75rem", sm: "1rem" },
                 "&:hover": { bgcolor: "#7a0404" },
               }}
             >
@@ -175,4 +203,3 @@ export default function SectionCalculator() {
     </Box>
   );
 }
-

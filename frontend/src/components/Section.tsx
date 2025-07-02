@@ -1,4 +1,3 @@
-
 import { Delete } from "@mui/icons-material";
 import { Box, IconButton, TextField } from "@mui/material";
 import { FC } from "react";
@@ -7,9 +6,9 @@ type SectionProps = {
   name: string;
   weight: string;
   id: string;
-  handleDelete: (arg0: string) => void;
-  handleSectionChange: (arg0: string, arg1: string) => void;
-  handleWeightChange: (arg0: string, arg1: string) => void;
+  handleDelete: (id: string) => void;
+  handleSectionChange: (id: string, newName: string) => void;
+  handleWeightChange: (id: string, newWeight: string) => void;
 };
 
 export const Section: FC<SectionProps> = ({
@@ -23,12 +22,13 @@ export const Section: FC<SectionProps> = ({
   return (
     <Box
       sx={{
-        flexDirection: "row",
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "row",
+        gap: { xs: 1, sm: 1 },
+        mb: { xs: 1, sm: 1.5 },
         alignItems: "center",
-        gap: 3,
-        mb: 1,
+        width: "100%",
+        boxSizing: "border-box",
       }}
     >
       <TextField
@@ -38,18 +38,44 @@ export const Section: FC<SectionProps> = ({
         value={name}
         autoComplete="off"
         onChange={(e) => handleSectionChange(id, e.target.value)}
-        sx={{ flexBasis: "65%" }}
+        sx={{
+          flex: 1,
+          minWidth: 0,
+          "& .MuiInputBase-input": {
+            fontSize: { xs: "0.75rem", sm: "0.875rem" },
+            padding: { xs: "6px 8px", sm: "8.5px 14px" },
+          },
+        }}
       />
       <TextField
         variant="outlined"
         size="small"
-        placeholder="Enter Section Weight"
+        placeholder="Weight"
         value={weight}
         autoComplete="off"
         onChange={(e) => handleWeightChange(id, e.target.value)}
-        sx={{ flexBasis: "25%" }}
+        sx={{
+          width: { xs: "65px", sm: "100px" },
+          flexShrink: 0,
+          "& .MuiInputBase-input": {
+            fontSize: { xs: "0.75rem", sm: "0.875rem" },
+            padding: { xs: "6px 4px", sm: "8.5px 14px" },
+          },
+        }}
       />
-      <IconButton onClick={() => handleDelete(id)} aria-label="delete section">
+      <IconButton
+        onClick={() => handleDelete(id)}
+        aria-label="delete section"
+        sx={{
+          padding: { xs: "4px", sm: "8px" },
+          width: { xs: "32px", sm: "40px" },
+          height: { xs: "32px", sm: "40px" },
+          flexShrink: 0,
+          "& .MuiSvgIcon-root": {
+            fontSize: { xs: "1rem", sm: "1.25rem" },
+          },
+        }}
+      >
         <Delete />
       </IconButton>
     </Box>

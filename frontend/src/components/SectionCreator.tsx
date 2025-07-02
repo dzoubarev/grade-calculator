@@ -1,11 +1,17 @@
-import { Box, Button, IconButton, Paper, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  Paper,
+  Typography,
+} from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { useLocation, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 import { Section } from "./Section";
 import { GradingSchemeType } from "./Home";
-import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
 
 export type SectionType = {
   name: string;
@@ -17,6 +23,7 @@ function SectionCreator() {
   const location = useLocation();
   const schemes: GradingSchemeType[] = location.state?.schemes || [];
   const navigate = useNavigate();
+
   const exampleScheme: SectionType[] = [
     { name: "Homework", weight: "0.1", id: uuidv4() },
     { name: "Midterm", weight: "0.3", id: uuidv4() },
@@ -30,30 +37,24 @@ function SectionCreator() {
   const [badSubmit, setBadSubmit] = useState<boolean>(false);
 
   const addSection = () => {
-    const newSections = [...sections, { name: "", weight: "", id: uuidv4() }];
-    setSections(newSections);
+    setSections([...sections, { name: "", weight: "", id: uuidv4() }]);
   };
 
   const deleteSection = (idToDelete: string) => {
-    const newSections = sections.filter((section) => section.id !== idToDelete);
-    setSections(newSections);
+    setSections(sections.filter((s) => s.id !== idToDelete));
   };
 
-  const changeSection = (idToChange: string, newSection: string) => {
-    const updated = sections.map((section) =>
-      section.id === idToChange ? { ...section, name: newSection } : section
-    );
-    setSections(updated);
+  const changeSection = (id: string, newName: string) => {
+    setSections(sections.map((s) => (s.id === id ? { ...s, name: newName } : s)));
   };
 
-  const changeWeight = (idToChange: string, newWeight: string) => {
-    const updated = sections.map((section) =>
-      section.id === idToChange ? { ...section, weight: newWeight } : section
-    );
-    setSections(updated);
+  const changeWeight = (id: string, newWeight: string) => {
+    setSections(sections.map((s) => (s.id === id ? { ...s, weight: newWeight } : s)));
   };
 
   const changeScheme = (increasing: boolean) => {
+    if (schemes.length === 0) return;
+
     const newIndex = increasing
       ? (index + 1) % schemes.length
       : index === 0
@@ -64,189 +65,213 @@ function SectionCreator() {
     setSections(schemes[newIndex].sections);
   };
 
-  const isValidFloat = (str: string): boolean => {
-    return /^-?\d+(\.\d+)?$/.test(str.trim());
-  };
+  const isValidFloat = (str: string): boolean => /^-?\d+(\.\d+)?$/.test(str.trim());
 
   const handleSubmit = () => {
     const hasInvalid = sections.some(
-      (section) =>
-        section.name.trim() === "" || !isValidFloat(section.weight.toString())
+      (s) => s.name.trim() === "" || !isValidFloat(s.weight.toString())
     );
-
     if (hasInvalid) {
       setBadSubmit(true);
       setTimeout(() => setBadSubmit(false), 2000);
       return;
     }
-
     navigate("/calculator", { state: { sections } });
   };
 
-  const sectionElements = sections.map((section) => (
-    <Section
-      key={section.id}
-      id={section.id}
-      name={section.name}
-      weight={section.weight}
-      handleDelete={deleteSection}
-      handleSectionChange={changeSection}
-      handleWeightChange={changeWeight}
-    />
-  ));
-
   return (
-    <Box>
+    <Box sx={{ overflow: "hidden", width: "100vw" }}>
       <MyAppBar />
       <Box
         sx={{
           width: "100%",
-          minHeight: "95vh",
-          backgroundColor: "#f9f9f9",
+          minHeight: "calc(100vh - 64px)",
+          bgcolor: "#f9f9f9",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          gap: 4,
-          pt: 4,
-          pb: 6,
+          gap: { xs: 2, sm: 4 },
+          pt: { xs: 2, sm: 4 },
+          pb: { xs: 2, sm: 6 },
+          px: { xs: 1, sm: 4 },
+          overflow: "auto",
+          boxSizing: "border-box",
         }}
       >
         <Typography
           variant="h5"
-          padding={2}
-          fontFamily={"initial"}
-          color="text.primary"
+          fontFamily="initial"
           fontWeight={600}
+          textAlign="center"
+          sx={{
+            fontSize: { xs: "1.2rem", sm: "1.8rem" },
+            flexShrink: 0,
+          }}
         >
           Create Your Own Sections
         </Typography>
+
+        <Typography
+          variant="body1"
+          fontFamily={"initial"}
+          color="text.secondary"
+          textAlign="center"
+          sx={{
+            fontSize: { xs: "0.85rem", sm: "1rem" },
+            maxWidth: { xs: "90%", sm: 600 },
+            flexShrink: 0,
+          }}
+        >
+          If weight {"<"} 1 it's treated as a decimal, if weight {">"} 1 it's treated as a percentage.
+        </Typography>
+
         <Paper
           elevation={3}
           sx={{
-            width: "75%",
+            width: { xs: "calc(100% - 8px)", sm: "70%", md: "60%" },
+            maxWidth: { sm: "850px" },
             bgcolor: "#f7f7f7",
             borderRadius: 2,
-            p: 3,
+            p: { xs: 1, sm: 4 },
+            flexShrink: 0,
+            boxSizing: "border-box",
           }}
         >
+          {/* Section Header Labels (shown on all screen sizes now) */}
           <Box
             sx={{
               display: "flex",
-              justifyContent: "center",
-              gap: 6,
-              mb: 1,
-              px: 2,
+              flexDirection: "row",
+              justifyContent: "space-between",
+              gap: 0,
+              mb: { xs: 1.5, sm: 2 },
+              px: 0.5,
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                width: "65%",
-              }}
-            >
+            <Box sx={{ flex: 1 }}>
               <Typography
-                fontFamily={"initial"}
-                fontSize={18}
+                fontFamily="initial"
+                fontSize={{ xs: 12, sm: 18 }}
                 color="text.secondary"
                 fontWeight={500}
-                mb={0.5}
-                textAlign="left"
               >
                 Section Name
               </Typography>
             </Box>
+            <Box sx={{ width: { xs: "65px", sm: "110px" }}}>
+              <Typography
+                fontFamily="initial"
+                fontSize={{ xs: 12, sm: 18 }}
+                color="text.secondary"
+                fontWeight={500}
+              >
+                Weight
+              </Typography>
+            </Box>
+            <Box sx={{ width: { xs: "32px", sm: "44px" } }} />
+          </Box>
 
+          {/* Section Inputs */}
+          <Box sx={{ mb: { xs: 1, sm: 2 } }}>
+            {sections.map((section) => (
+              <Section
+                key={section.id}
+                id={section.id}
+                name={section.name}
+                weight={section.weight}
+                handleDelete={deleteSection}
+                handleSectionChange={changeSection}
+                handleWeightChange={changeWeight}
+              />
+            ))}
+          </Box>
+
+          {/* Scheme Navigation */}
+          {schemes.length > 0 && (
             <Box
               sx={{
                 display: "flex",
-                flexDirection: "column",
-                width: "25%",
-              }}
-            >
-              <Typography
-                fontFamily={"initial"}
-                fontSize={18}
-                color="text.secondary"
-                fontWeight={500}
-                mb={0.5}
-                textAlign="left"
-              >
-                Section Weight
-              </Typography>
-            </Box>
-          </Box>
-
-          {sectionElements}
-
-          {schemes.length > 0 && (
-            <Box
-                sx={{
-                display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: 2,
-                mt: 1,
-                }}
+                gap: { xs: 1, sm: 2 },
+                my: { xs: 1, sm: 2 },
+              }}
             >
-                <IconButton onClick={() => changeScheme(false)} size="small" sx={{ color: "#9c0507" }}>
+              <IconButton
+                onClick={() => changeScheme(false)}
+                size="small"
+                sx={{ color: "#9c0507" }}
+              >
                 <ArrowBackIos fontSize="small" />
-                </IconButton>
-
-                <Typography fontSize={16} fontWeight={500}>
+              </IconButton>
+              <Typography fontSize={{ xs: 12, sm: 16 }} fontWeight={500}>
                 Scheme {index + 1} / {schemes.length}
-                </Typography>
-
-                <IconButton onClick={() => changeScheme(true)} size="small" sx={{ color: "#9c0507" }}>
+              </Typography>
+              <IconButton
+                onClick={() => changeScheme(true)}
+                size="small"
+                sx={{ color: "#9c0507" }}
+              >
                 <ArrowForwardIos fontSize="small" />
-                </IconButton>
+              </IconButton>
             </Box>
-           )}
+          )}
 
+          {/* Buttons */}
           <Box
             sx={{
-                display: "flex",
-                justifyContent: "center",
-                gap: 3,
-                mt: 3,
+              display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
+              justifyContent: "center",
+              gap: { xs: 1, sm: 2 },
+              mt: { xs: 2, sm: 3 },
             }}
-            >
+          >
             <Button
-                onClick={() => addSection()}
-                variant="outlined"
-                sx={{
+              onClick={addSection}
+              variant="outlined"
+              sx={{
                 textTransform: "none",
-                px: 4,
-                py: 1.2,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1 },
                 fontWeight: 600,
+                fontSize: { xs: "0.75rem", sm: "0.875rem" },
                 borderColor: "#ccc",
                 color: "#444",
                 "&:hover": { borderColor: "#aaa", bgcolor: "#eee" },
-                }}
+              }}
             >
-                Add New Section
+              Add New Section
             </Button>
 
             <Button
-                onClick={() => handleSubmit()}
-                variant="contained"
-                sx={{
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{
                 textTransform: "none",
-                px: 4,
-                py: 1.2,
+                px: { xs: 2, sm: 3 },
+                py: { xs: 0.5, sm: 1 },
                 fontWeight: 600,
+                fontSize: { xs: "0.75rem", sm: "0.875rem" },
                 bgcolor: "#b63636",
                 color: "whitesmoke",
                 "&:hover": { bgcolor: "#8a2929" },
-                }}
+              }}
             >
-                Confirm Sections
+              Confirm Sections
             </Button>
-        </Box>
+          </Box>
 
+          {/* Validation Error */}
           {badSubmit && (
-            <Typography color="error" mt={1} fontFamily={"initial"}>
-              Make sure all sections have a name and weights are valid numbers between 0.0 and 100
+            <Typography
+              color="error"
+              mt={{ xs: 1, sm: 2 }}
+              fontFamily="initial"
+              textAlign="center"
+              sx={{ fontSize: { xs: "0.7rem", sm: "0.875rem" } }}
+            >
+              Make sure all sections have a name and valid weight between 0.0 and 100
             </Typography>
           )}
         </Paper>

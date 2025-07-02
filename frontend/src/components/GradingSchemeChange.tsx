@@ -1,12 +1,11 @@
 import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
-import { useLocation, useNavigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 import { Section } from "./Section";
 import { GradingSchemeType } from "./Home";
 import { ArrowBackIos, ArrowForwardIos } from "@mui/icons-material";
-import { METHODS } from "http";
 
 export type SectionType = {
   name: string;
@@ -81,11 +80,11 @@ function GradingSchemeChange() {
 
 
   const handleCourseSubmit = async () => {
-    setCourseCode(courseCode.trim());
-    if (courseCode === "") return;
+    const cleanedId = courseCode.trim().replace(/\s+/g, "");
+    if (cleanedId === "") return;
 
     try {
-      const res = await fetch(`http://localhost:8080/api/scheme/${courseCode}`);
+      const res = await fetch(`http://localhost:8080/api/scheme/${cleanedId}`);
       if (!res.ok) throw new Error("Failed to fetch data");
       const data: GradingSchemeType[] = await res.json();
 
@@ -113,11 +112,12 @@ function GradingSchemeChange() {
       setTimeout(() => setBadSubmit(false), 2000);
       return;
     }
+    const token = sessionStorage.getItem("token");
 
     const res = await fetch("http://localhost:8080/api/change/scheme", {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": "application/json", "Authorization": `Bearer ${token}`
     },
     body: JSON.stringify(schemes),
     });
@@ -210,6 +210,13 @@ function GradingSchemeChange() {
           }}
         >
           Confirm Course Code
+        </Button>
+        <Button
+          onClick={() => navigate("/post")}
+          variant="outlined"
+          sx={{ textTransform: "none", minWidth: 180 }}
+        >
+          Back to Post Options
         </Button>
       </Box>
     </Paper>
@@ -362,6 +369,13 @@ function GradingSchemeChange() {
                 }}
             >
                 Confirm Changes to Scheme(s)
+            </Button>
+            <Button
+              onClick={() => navigate("/post")}
+              variant="outlined"
+              sx={{ textTransform: "none", minWidth: 180 }}
+            >
+              Back to Post Options
             </Button>
         </Box>
 

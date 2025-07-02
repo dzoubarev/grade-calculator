@@ -1,5 +1,6 @@
-import { Box, Paper, Typography, Divider } from "@mui/material";
+import { Box, Paper, Typography, Divider, IconButton } from "@mui/material";
 import MyAppBar from "./MyAppBar";
+import { GitHub } from "@mui/icons-material";
 
 export default function About() {
   return (
@@ -87,6 +88,9 @@ export default function About() {
             your standing, this tool helps you navigate your academic journey
             confidently.
           </Typography>
+          <IconButton href="http://github.com/dzoubarev/grade-calculator">
+            <GitHub></GitHub>
+          </IconButton>
         </Paper>
       </Box>
     </Box>

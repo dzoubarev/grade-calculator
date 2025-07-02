@@ -17,26 +17,28 @@ export default function FinalResults() {
 
   const results = calculateResults();
 
-  const determineResultTypography = (result:number, index:number) => {
-    if(result > 100){
-        return `Over 100% on ${selectedSection} needed to get a ${gradeLetters[index]} (${gradeNumbers[index]})`;
-    }  
+  const determineResultTypography = (result: number, index: number) => {
+    if (result > 100) {
+      return `Over 100% on ${selectedSection} needed to get a ${gradeLetters[index]} (${gradeNumbers[index]})`;
+    }
 
-    if(result <= 0){
-        return `Good job! ${gradeLetters[index]} (${gradeNumbers[index]}) is guaranteed!`;
-    }  
+    if (result <= 0) {
+      return `Good job! ${gradeLetters[index]} (${gradeNumbers[index]}) is guaranteed!`;
+    }
 
-    return `You need a ${result}% on ${selectedSection} to get a ${gradeLetters[index]} (${gradeNumbers[index]})`
-  }
+    return `You need a ${result}% on ${selectedSection} to get a ${gradeLetters[index]} (${gradeNumbers[index]})`;
+  };
 
-    
-  const resultTypography = results.map((result, index) => {
-    return (
-      <Typography key={index} fontFamily="initial" fontSize={16}>
-        {determineResultTypography(result,index)}
-      </Typography>
-    );
-  });
+  const resultTypography = results.map((result, index) => (
+    <Typography
+      key={index}
+      fontFamily="initial"
+      fontSize={{ xs: "0.875rem", sm: "1rem" }}
+      textAlign="center"
+    >
+      {determineResultTypography(result, index)}
+    </Typography>
+  ));
 
   function findMinGrade(desired: number): number {
     let knownTotal = 0;
@@ -66,22 +68,33 @@ export default function FinalResults() {
   }
 
   return (
-    <Box sx={{ backgroundColor: "whitesmoke", minHeight: "100vh" }}>
+    <Box sx={{ overflow: "hidden", width: "100vw" }}>
       <MyAppBar />
       <Box
         sx={{
           width: "100%",
+          minHeight: "calc(100vh - 64px)",
+          bgcolor: "#f5f5f5",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          paddingTop: 3,
-          gap: 3,
+          pt: { xs: 2, sm: 4 },
+          pb: { xs: 2, sm: 6 },
+          px: { xs: 1, sm: 4 },
+          gap: { xs: 2, sm: 4 },
+          overflow: "auto",
+          boxSizing: "border-box",
         }}
       >
         <Typography
           variant="h5"
           fontFamily="initial"
-          sx={{ color: "darkred", fontWeight: "bold" }}
+          fontWeight={700}
+          textAlign="center"
+          sx={{
+            fontSize: { xs: "1.3rem", sm: "2rem" },
+            color: "darkred",
+          }}
         >
           Your Grade Requirements
         </Typography>
@@ -89,15 +102,17 @@ export default function FinalResults() {
         <Paper
           elevation={4}
           sx={{
-            width: "70%",
-            padding: 4,
-            backgroundColor: "#fffdfd",
+            width: { xs: "calc(100% - 8px)", sm: "70%", md: "60%" },
+            maxWidth: 600,
+            bgcolor: "#fffdfd",
             borderRadius: 3,
+            p: { xs: 2, sm: 4 },
             boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
             display: "flex",
             flexDirection: "column",
-            gap: 2,
-            alignItems:'center'
+            gap: { xs: 1.5, sm: 2 },
+            alignItems: "center",
+            boxSizing: "border-box",
           }}
         >
           {resultTypography}
