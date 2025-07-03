@@ -84,7 +84,8 @@ function GradingSchemeChange() {
     if (cleanedId === "") return;
 
     try {
-      const res = await fetch(`http://localhost:8080/api/scheme/${cleanedId}`);
+      const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+      const res = await fetch(`${BASE_URL}/api/scheme/${cleanedId}`);
       if (!res.ok) throw new Error("Failed to fetch data");
       const data: GradingSchemeType[] = await res.json();
 
@@ -114,7 +115,8 @@ function GradingSchemeChange() {
     }
     const token = sessionStorage.getItem("token");
 
-    const res = await fetch("http://localhost:8080/api/change/scheme", {
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const res = await fetch(`${BASE_URL}/api/change/scheme`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json", "Authorization": `Bearer ${token}`

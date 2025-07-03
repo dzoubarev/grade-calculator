@@ -21,7 +21,8 @@ export default function Feedback() {
     }
 
     setStatus("Sending feedback...");
-    const result = await fetch("http://localhost:8080/api/sendFeedback", {
+    const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+    const result = await fetch(`${BASE_URL}/api/sendFeedback`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ category: category, feedback: feedback }),

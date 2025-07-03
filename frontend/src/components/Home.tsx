@@ -28,7 +28,8 @@ function Home() {
 
     const cleanedId = courseCode.trim().replace(/\s+/g, "");
     try {
-      const res = await fetch(`http://localhost:8080/api/scheme/${cleanedId}`);
+      const BASE_URL = process.env.REACT_APP_BACKEND_URL;
+      const res = await fetch(`${BASE_URL}/api/scheme/${cleanedId}`);
       if (!res.ok) throw new Error("Failed to fetch data");
       const data: GradingSchemeType[] = await res.json();
       setLoading(false);
