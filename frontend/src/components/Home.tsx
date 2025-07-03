@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SectionType } from "./SectionCreator";
 import { GitHub } from "@mui/icons-material";
+import { Analytics } from "@vercel/analytics/react"
 
 export type GradingSchemeType = {
   name: string;
@@ -56,6 +57,7 @@ function Home() {
         flexDirection: "column",
       }}
     >
+      <Analytics></Analytics>
       <Box sx={{ flexShrink: 0 }}>
         <MyAppBar />
       </Box>
