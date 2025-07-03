@@ -71,7 +71,7 @@ export default function GradingSchemeCreator() {
 
     try {
       const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-      const checkRes = await fetch(`${BASE_URL}http://localhost:8080/api/course/${cleanedId}`);
+      const checkRes = await fetch(`${BASE_URL}/api/course/${cleanedId}`);
 
       if (!checkRes.ok) throw new Error("Failed to fetch course");
 
@@ -85,7 +85,7 @@ export default function GradingSchemeCreator() {
       
       const token = sessionStorage.getItem("token")
       
-      const response = await fetch(`${BASE_URL}http://localhost:8080/api/add-scheme`, {
+      const response = await fetch(`${BASE_URL}/api/add-scheme`, {
         method: "POST",
         headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ courseId:cleanedId, sections, name: "Scheme" }),

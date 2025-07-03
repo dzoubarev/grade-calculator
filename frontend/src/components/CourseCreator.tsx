@@ -22,8 +22,8 @@ export default function CourseCreator() {
     const cleanedId = data.id.trim().replace(/\s+/g, "");
     const cleanedName = data.name.trim();
     try {
-      
-      const checkRes = await fetch(`http://localhost:8080/api/course/${cleanedId}`);
+      const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+      const checkRes = await fetch(`${BACKEND_URL}/api/course/${cleanedId}`);
 
       if (!checkRes.ok) {
         throw new Error("Failed to fetch data");
@@ -38,7 +38,7 @@ export default function CourseCreator() {
       }
       const token = sessionStorage.getItem("token")
 
-      const response = await fetch("http://localhost:8080/api/add-course", {
+      const response = await fetch(`${BACKEND_URL}/api/add-course`, {
         method: "POST",
         headers: { "Content-Type": "application/json",  "Authorization": `Bearer ${token}` },
         body: JSON.stringify({ id: cleanedId, name: cleanedName }),
