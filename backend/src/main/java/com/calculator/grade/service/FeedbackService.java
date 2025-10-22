@@ -25,8 +25,8 @@ public class FeedbackService {
             emailSender.send(message);
             return "Feedback sent successfully!";
         }
-        catch(Exception e){
-            throw new Error("Failed to send feedback.");
+        catch (Exception e) {
+            throw new RuntimeException("Failed to send feedback: " + e.getMessage(), e);
         }
     }
 }
