@@ -170,6 +170,8 @@ function Home() {
           )}
         </Paper>
       </Box>
+      <Typography fontFamily='initial' textAlign={"center"}>If your course isn't here, contact gradecalc.dev@gmail.com or go to the feedback page to help add more grading schemes!</Typography>
+      <Typography fontFamily={'initial'} textAlign={"center"}>Note: if your course isn't there try the start creating option! </Typography>
       <IconButton href="http://github.com/dzoubarev/grade-calculator" sx={{pb:5}}>
           <GitHub></GitHub>
       </IconButton>

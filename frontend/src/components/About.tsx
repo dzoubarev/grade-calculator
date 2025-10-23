@@ -84,9 +84,7 @@ export default function About() {
             color="#7a0000"
             textAlign="center"
           >
-            Whether you’re aiming for that A+, or just want peace of mind on
-            your standing, this tool helps you navigate your academic journey
-            confidently.
+            Contact gradecalc.dev@gmail.com or go to feedback page for questions and concerns
           </Typography>
           <IconButton href="http://github.com/dzoubarev/grade-calculator">
             <GitHub></GitHub>
