@@ -1,8 +1,9 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Paper, Switch, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { SectionType } from "./SectionCreator";
 import { useLocation } from "react-router-dom";
 import { GradeType } from "./SectionCalculator";
+import { useState } from "react";
 
 export default function FinalResults() {
   const location = useLocation();
@@ -12,10 +13,18 @@ export default function FinalResults() {
       ? sections.find((s: SectionType) => s.id === selectedId)?.name
       : null;
 
+  const[rounding,setRounding] = useState(false);
+
   const gradeLetters = ["A", "A-", "B+", "B", "B-", "C+", "C", "D"];
-  const gradeNumbers = [85, 80, 75, 70, 65, 60, 55, 50];
+  const gradeNumbers = rounding ? [84.5, 79.5, 74.5, 69.5, 64.5, 59.5, 54.5, 49.5] 
+                                  : 
+                                  [85, 80, 75, 70, 65, 60, 55, 50] ;
 
   const results = calculateResults();
+
+  const handleSwitchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRounding(event.target.checked);
+  }
 
   const determineResultTypography = (result: number, index: number) => {
     if (result > 100) {
@@ -98,6 +107,35 @@ export default function FinalResults() {
         >
           Your Grade Requirements
         </Typography>
+
+        <Box
+         sx={{
+          display:'flex',
+          flexDirection:'row',
+          justifyContent:'center',
+          alignItems:'center'
+         }}
+         >
+          <Typography
+          fontFamily="initial"
+          textAlign="center"
+          >
+            {"Rounding (Ex. 84.5 \u2192 85 )"}
+          </Typography>
+          <Switch onChange={(e) => handleSwitchChange(e)}
+            sx={{
+              "& .MuiSwitch-switchBase.Mui-checked": {
+                color: "#8B0000", 
+                "&:hover": {
+                  backgroundColor: "rgba(139,0,0,0.1)",
+                },
+              },
+              "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": {
+                backgroundColor: "#8B0000",
+              },
+            }}
+          />
+        </Box>
 
         <Paper
           elevation={4}
