@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Home, Person, Menu as MenuIcon } from "@mui/icons-material";
+import { Home, Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -69,12 +69,6 @@ function MyAppBar() {
             >
               <Typography variant="h6">Feedback</Typography>
             </Button>
-            <IconButton
-              onClick={() => navigate("/login")}
-              sx={{ color: "whitesmoke" }}
-            >
-              <Person />
-            </IconButton>
           </Box>
         ) : (
           <>
