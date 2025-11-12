@@ -44,7 +44,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://grade-calculator-ochre.vercel.app/","https://mcgill-gradecalc.com/"));
+        config.setAllowedOrigins(List.of("https://grade-calculator-ochre.vercel.app/","https://www.mcgill-gradecalc.com/"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
