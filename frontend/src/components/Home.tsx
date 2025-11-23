@@ -145,6 +145,11 @@ function Home() {
             autoComplete="off"
             fullWidth
             sx={{ mb: 3, maxWidth: 300, mx: "auto" }}
+            onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              handleSubmit();
+            }
+            }}
           />
 
           <Button

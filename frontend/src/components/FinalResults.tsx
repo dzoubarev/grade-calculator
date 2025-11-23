@@ -1,12 +1,14 @@
-import { Box, Paper, Switch, Typography } from "@mui/material";
+import { Box, Button, Paper, Switch, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { SectionType } from "./SectionCreator";
 import { useLocation } from "react-router-dom";
 import { GradeType } from "./SectionCalculator";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function FinalResults() {
   const location = useLocation();
+  const navigate = useNavigate();
   const { sections, grades, selectedId } = location.state || {};
   const selectedSection =
     selectedId && sections
@@ -154,6 +156,16 @@ export default function FinalResults() {
           }}
         >
           {resultTypography}
+        <Button
+            variant="contained"
+            sx={{ backgroundColor: "#9c0507", py: 1.5, textTransform:'none' }}
+            size="small"
+            onClick={() => navigate("/")}
+          >
+            <Typography fontFamily={"initial"} color="whitesmoke">
+              Calculate For Another Course
+            </Typography>
+          </Button>
         </Paper>
       </Box>
     </Box>
