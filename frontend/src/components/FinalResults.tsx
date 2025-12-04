@@ -57,7 +57,7 @@ export default function FinalResults() {
 
     for (let section of sections) {
       let weight = parseFloat(section.weight.trim());
-      if (weight > 1) weight /= 100;
+      if (weight >= 1) weight /= 100;
 
       if (section.id === selectedId) {
         unknownWeight = weight;
@@ -70,10 +70,12 @@ export default function FinalResults() {
     }
 
     const needed = (desired - knownTotal) / unknownWeight;
+    console.log(needed)
     return Math.round(needed * 100) / 100;
   }
 
   function calculateResults(): number[] {
+    console.log(sections)
     if (!grades || !sections || !selectedId) return [];
     return gradeNumbers.map((desired) => findMinGrade(desired));
   }
