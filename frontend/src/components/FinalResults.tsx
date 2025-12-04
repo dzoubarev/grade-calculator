@@ -70,12 +70,10 @@ export default function FinalResults() {
     }
 
     const needed = (desired - knownTotal) / unknownWeight;
-    console.log(needed)
     return Math.round(needed * 100) / 100;
   }
 
   function calculateResults(): number[] {
-    console.log(sections)
     if (!grades || !sections || !selectedId) return [];
     return gradeNumbers.map((desired) => findMinGrade(desired));
   }
