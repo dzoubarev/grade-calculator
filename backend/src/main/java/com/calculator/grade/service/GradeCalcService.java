@@ -47,7 +47,6 @@ public class GradeCalcService {
         .orElseThrow(() -> new IllegalArgumentException("Course not found: " + scheme.getCourseId()));
 
         GradingScheme newScheme = new GradingScheme();
-        newScheme.setName(scheme.getName());
         newScheme.setCourse(course);
 
         List<Section> sectionEntities = new ArrayList<>();

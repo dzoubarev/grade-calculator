@@ -17,9 +17,7 @@ import jakarta.persistence.OneToMany;
 public class GradingScheme {
     @Id
     @GeneratedValue
-    private UUID id;
-
-    private String name;           
+    private UUID id;         
 
     @ManyToOne
     @JoinColumn(name = "course_id")
@@ -29,13 +27,10 @@ public class GradingScheme {
     private List<Section> sections = new ArrayList<>();
 
     public GradingScheme(){
-        name = null;
         course = null;
     }
 
     public void  setId(UUID id) {this.id = id;}
-
-    public void  setName(String name) {this.name = name;}
 
     public void  setSections(List<Section> sections) {this.sections = sections;}
 
@@ -43,9 +38,6 @@ public class GradingScheme {
 
     public Course getCourse(){return course;}
 
-    public String getName(){
-        return name;
-    }
     public UUID getId(){return id;}
     public List<Section> getSections(){ return sections;}
 }

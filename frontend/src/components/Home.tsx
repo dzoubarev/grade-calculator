@@ -3,11 +3,11 @@ import MyAppBar from "./MyAppBar";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { SectionType } from "./SectionCreator";
-import { Close, GitHub, Search} from "@mui/icons-material";
+import { GitHub, Search} from "@mui/icons-material";
 import { Analytics } from "@vercel/analytics/react"
 
 export type GradingSchemeType = {
-  name: string;
+  courseName: string;
   sections: SectionType[];
   id:string;
 };
@@ -41,26 +41,15 @@ function Home() {
     fetchCourses();
   },[]);
 
-  const findCourseCode = ():string => {
-    let code:string = ""
-    courses.forEach((course) => {
-      if(courseCode.includes(course.id) && courseCode.includes(course.name)){
-        code = course.id;
-      }
-    })
-    return code;
+  const normalize = (s:string) => { return s.toLowerCase().replace(/\s+/g, "");}
 
-  }
-
-  const handleSubmit = async () => {
-    if (courseCode.trim() === "") return;
+  const handleSubmit = async (code:string) => {
+    if (code.trim() === "") return;
 
     setLoading(true);
-    const codeFromOptions = findCourseCode();
-    const cleanedId = codeFromOptions === "" ? courseCode.trim().replace(/\s+/g, "") : codeFromOptions;
     try {
       const BASE_URL = process.env.REACT_APP_BACKEND_URL;
-      const res = await fetch(`${BASE_URL}/api/scheme/${cleanedId}`);
+      const res = await fetch(`${BASE_URL}/api/scheme/${code}`);
       if (!res.ok) throw new Error("Failed to fetch data");
       const data: GradingSchemeType[] = await res.json();
       setLoading(false);
@@ -172,10 +161,24 @@ function Home() {
           autoComplete={true}
           autoSelect={true}
           autoHighlight={true}
-          options={courses ? courses?.map((course) => {
-            return course.id + " - " + course.name;
-          }) : []}
+          options={courses?.map((course) => ({
+            id: course.id,
+            label:`${course.id} - ${course.name}`
+          }))}
+          getOptionLabel={(option) => option.label}
           onInputChange={(event,value) => handleChange(value) }
+          filterOptions={(options, { inputValue }) => {
+           const normalizedInput = normalize(inputValue);
+
+          return options.filter(option =>
+            normalize(option.label).includes(normalizedInput)
+          );
+          }}
+
+          onChange={(e, newValue) => {
+            if (!newValue) return;
+            handleSubmit(newValue.id);
+         }}
           renderInput={(params) =>
           <TextField
             {...params}
@@ -193,11 +196,6 @@ function Home() {
               }
             }}
             onChange={(e) => {setCourseCode(e.target.value)}}
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                setTimeout( () => {handleSubmit()}, 0);
-              }
-            }}
             
             slotProps={{
               input:{
@@ -219,7 +217,7 @@ function Home() {
             fullWidth
             variant="contained"
             sx={{ backgroundColor: "#9c0507", py: 1.5 }}
-            onClick={handleSubmit}
+            onClick={() => handleSubmit(courseCode)}
             disabled={loading}
           >
             <Typography fontFamily={"initial"} color="whitesmoke">

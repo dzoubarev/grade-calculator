@@ -7,26 +7,26 @@ import com.calculator.grade.model.GradingScheme;
 
 public class GradingSchemeDTO {
     private String id;
-    private String name;
     private List<SectionDTO> sections;
+    private String courseName;
 
     public GradingSchemeDTO(String name){
-        this.name = name;
+        this.courseName = name;
         sections = new ArrayList<SectionDTO>();
     }
 
     public GradingSchemeDTO(String name, List<SectionDTO> sections){
-        this.name = name;
+        this.courseName = name;
         this.sections = sections;
     }
 
     public GradingSchemeDTO(GradingScheme scheme){
         this.id = scheme.getId().toString();
-        this.name = scheme.getName();
         this.sections = scheme.getSections()
                          .stream()
                          .map(SectionDTO::new)
                          .toList();
+        this.courseName = scheme.getCourse().getId();
     }
 
     public GradingSchemeDTO(){};
@@ -39,14 +39,14 @@ public class GradingSchemeDTO {
         this.id = id;
     }
 
-    public void setName(String name){this.name = name;}
+    public void setCourseName(String name){this.courseName = name;}
     
     public void addSection(SectionDTO newSection){
         sections.add(newSection);
     }
 
-    public String getName(){
-        return name;
+    public String getCourseName(){
+        return courseName;
     }
 
     public List<SectionDTO> getSections() {

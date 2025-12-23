@@ -108,7 +108,7 @@ function SectionCreator() {
             flexShrink: 0,
           }}
         >
-          Create Your Own Sections
+          {schemes.length === 0 ? "Create Your Own Sections" : schemes[0].courseName}
         </Typography>
 
         <Typography
