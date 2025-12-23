@@ -159,7 +159,6 @@ function Home() {
 
           <Autocomplete
           autoComplete={true}
-          autoSelect={true}
           autoHighlight={true}
           options={courses?.map((course) => ({
             id: course.id,
