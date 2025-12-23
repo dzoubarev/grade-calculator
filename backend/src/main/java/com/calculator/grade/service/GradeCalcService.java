@@ -7,6 +7,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.calculator.grade.dto.CourseDTO;
 import com.calculator.grade.dto.GradingSchemeDTO;
 import com.calculator.grade.dto.GradingSchemePostDTO;
 import com.calculator.grade.dto.SectionDTO;
@@ -80,5 +81,12 @@ public class GradeCalcService {
 
             gradingSchemeRepository.save(scheme);
         }
-}
+    }
+
+    public List<CourseDTO> getAllCourses(){
+        List<Course> courses =  courseRepository.findAll();
+        List<CourseDTO> allCoursesDTO = courses.stream().map(CourseDTO::new).toList();
+
+        return allCoursesDTO;
+    }
 }

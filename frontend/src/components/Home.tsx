@@ -1,9 +1,9 @@
-import { Box, Button, IconButton, Paper, TextField, Typography } from "@mui/material";
+import { Autocomplete, Box, Button, IconButton, InputAdornment, Paper, TextField, Typography } from "@mui/material";
 import MyAppBar from "./MyAppBar";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SectionType } from "./SectionCreator";
-import { GitHub } from "@mui/icons-material";
+import { Close, GitHub, Search} from "@mui/icons-material";
 import { Analytics } from "@vercel/analytics/react"
 
 export type GradingSchemeType = {
@@ -12,22 +12,52 @@ export type GradingSchemeType = {
   id:string;
 };
 
+type Course = {
+  name:string;
+  id:string;
+}
+
 function Home() {
   const navigate = useNavigate();
   const [courseCode, setCourseCode] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const handleChange = (newCode: string) => {
     setCourseCode(newCode);
   };
 
+  useEffect(() => {
+    const fetchCourses = async() => {
+      const data = await fetch("http://localhost:8080/api/course/all");
+      if(!data.ok){
+        setCourses([]); 
+        throw new Error("Failed to Fetch Courses");
+      }
+      const courses:Course[] = await data.json();
+      setCourses(courses);
+    };
+    fetchCourses();
+  },[]);
+
+  const findCourseCode = ():string => {
+    let code:string = ""
+    courses.forEach((course) => {
+      if(courseCode.includes(course.id) && courseCode.includes(course.name)){
+        code = course.id;
+      }
+    })
+    return code;
+
+  }
+
   const handleSubmit = async () => {
     if (courseCode.trim() === "") return;
 
     setLoading(true);
-
-    const cleanedId = courseCode.trim().replace(/\s+/g, "");
+    const codeFromOptions = findCourseCode();
+    const cleanedId = codeFromOptions === "" ? courseCode.trim().replace(/\s+/g, "") : codeFromOptions;
     try {
       const BASE_URL = process.env.REACT_APP_BACKEND_URL;
       const res = await fetch(`${BASE_URL}/api/scheme/${cleanedId}`);
@@ -136,20 +166,53 @@ function Home() {
           <Typography sx={{ mb: 1 }}>
             Enter a course code to load the grading scheme.
           </Typography>
-          <Typography sx={{ mb: 3, fontStyle: "italic" }}>Ex: PHYS 142</Typography>
+          <Typography sx={{ mb: 3, fontStyle: "italic" }}>Ex: PHYS142</Typography>
 
+          <Autocomplete
+          autoComplete={true}
+          autoSelect={true}
+          autoHighlight={true}
+          options={courses ? courses?.map((course) => {
+            return course.id + " - " + course.name;
+          }) : []}
+          onInputChange={(event,value) => handleChange(value) }
+          renderInput={(params) =>
           <TextField
+            {...params}
             size="small"
-            onChange={(e) => handleChange(e.target.value.toUpperCase())}
+            placeholder="Search courses..." 
             value={courseCode}
-            autoComplete="off"
             fullWidth
-            sx={{ mb: 3, maxWidth: 300, mx: "auto" }}
-            onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              handleSubmit();
-            }
+            sx={{ 
+              mb: 3, 
+              width: 400, 
+              mx: "auto",
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '50px', 
+                paddingLeft: '10px'
+              }
             }}
+            onChange={(e) => {setCourseCode(e.target.value)}}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                setTimeout( () => {handleSubmit()}, 0);
+              }
+            }}
+            
+            slotProps={{
+              input:{
+              ...params.InputProps,
+              startAdornment: (
+              <>
+                <InputAdornment position="start">
+                  <Search color="action" />
+                </InputAdornment>
+                {params.InputProps.startAdornment}
+              </>
+              )
+              }
+            }}
+          />}
           />
 
           <Button

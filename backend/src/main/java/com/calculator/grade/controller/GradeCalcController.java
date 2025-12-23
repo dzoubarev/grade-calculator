@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.calculator.grade.dto.CourseDTO;
 import com.calculator.grade.dto.GradingSchemeDTO;
 import com.calculator.grade.dto.GradingSchemePostDTO;
 import com.calculator.grade.model.Course;
@@ -38,6 +39,11 @@ public class GradeCalcController{
     @GetMapping("/course/{courseId}")
     public boolean courseExistsInDB(@PathVariable("courseId") String courseId){
         return gradeCalcService.getCourse(courseId);
+    }
+
+    @GetMapping("/course/all")
+    public List<CourseDTO> getAllCourses(){
+        return gradeCalcService.getAllCourses();
     }
 
     @PostMapping("/add-scheme")
