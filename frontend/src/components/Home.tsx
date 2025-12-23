@@ -30,7 +30,7 @@ function Home() {
 
   useEffect(() => {
     const fetchCourses = async() => {
-      const data = await fetch("http://localhost:8080/api/course/all");
+      const data = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/course/all`);
       if(!data.ok){
         setCourses([]); 
         throw new Error("Failed to Fetch Courses");
